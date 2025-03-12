@@ -1,0 +1,24 @@
+TTStar/
+├── src/
+│   ├── api/               # Comunicación con el backend
+│   ├── assets/            # Recursos estáticos (imágenes, fuentes, etc.)
+│   ├── components/        # Componentes reutilizables
+│   │   ├── common/        # Componentes genéricos (botones, inputs, etc.)
+│   │   └── specific/      # Componentes específicos de la aplicación
+│   ├── config/            # Configuraciones de la aplicación
+│   ├── hooks/             # Custom hooks
+│   ├── navigation/        # Configuración de navegación
+│   ├── screens/           # Pantallas de la aplicación
+│   ├── services/          # Servicios (notificaciones, analytics, etc.)
+│   ├── state/             # Gestión de estado
+│   │   ├── contexts/      # React Context
+│   │   ├── redux/         # Si usas Redux
+│   │   └── zustand/       # Si usas Zustand
+│   ├── styles/            # Estilos globales, temas, etc.
+│   ├── types/             # Definiciones de tipos (TypeScript)
+│   └── utils/             # Funciones utilitarias
+├── App.tsx                # Punto de entrada principal
+├── app.json               # Configuración de Expo
+├── babel.config.js        # Configuración de Babel ??
+├── package.json           # Dependencias del proyecto
+└── tsconfig.json          # Configuración de TypeScript
