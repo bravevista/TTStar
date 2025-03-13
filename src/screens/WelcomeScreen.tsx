@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, Animated } from 'react-native';
+import { Image } from 'expo-image';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../hooks/useTheme';
 import { FeatureCarousel } from '../components/specific/FeatureCarousel';
@@ -53,7 +54,12 @@ const WelcomeScreen = ({ navigation }: any) => {
 
             {/* Header con logo y botón de tema */}
             <View style={styles.header}>
-                <Image source={require('../assets/logo.png')} style={styles.logo} resizeMode='contain' />
+                <Image source={require('../assets/images/logo.png')} style={styles.logo} contentFit='contain' />
+                <Text style={[
+                    styles.nameLogo, { color: colors.text, fontSize: typography.fontSizes.xxxl }
+                ]}>
+                    trustthreads
+                </Text>
                 <TouchableOpacity onPress={toggleTheme} style={[
                     styles.themeToggle, { backgroundColor: colors.card, ...shadows.sm }
                 ]}>
@@ -64,9 +70,9 @@ const WelcomeScreen = ({ navigation }: any) => {
             {/* Título de bienvenida */}
             <View style={styles.welcomeSection}>
                 <Text style={[
-                    styles.welcomeSection, { color: colors.text, fontSize: typography.fontSizes.xxxl }
+                    styles.welcomeTitle, { color: colors.text, fontSize: typography.fontSizes.xxxl }
                 ]}>
-                    !Bienvenido!
+                    ¡Bienvenido!
                 </Text>
                 <Text style={[
                     styles.welcomeSubtitle, { color: colors.textSecondary, fontSize: typography.fontSizes.lg }
@@ -101,18 +107,23 @@ const WelcomeScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20,
+        paddingTop: 10,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: 10,
     },
     logo: {
-        width: 120,
-        height: 40,
+        width: 32,
+        height: 32,
+    },
+    nameLogo: {
+        width: 280,
+        fontWeight: '400',
+        fontStyle: 'italic'
     },
     themeToggle: {
         width: 40,

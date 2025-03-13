@@ -49,14 +49,18 @@ export const FeatureCarousel = ({ features, scrollX }: FeatureCarouselProps) => 
     // Calculamos la posición para los indicadores del carrusel
     const indicatorPositon = scrollX.interpolate({
         inputRange: [0, width, width * 2],
-        outputRange: [0, 20, 40],
+        outputRange: [-20, 0, 20],
     });
 
     return (
         <View style={styles.container}>
             <Animated.FlatList 
-                data={features} renderItem={renderFeatureItem} keyExtractor={(item) => item.id}
-                horizontal pagingEnabled showsHorizontalScrollIndicator={false}
+                data={features} 
+                renderItem={renderFeatureItem} 
+                keyExtractor={(item) => item.id}
+                horizontal 
+                pagingEnabled 
+                showsHorizontalScrollIndicator={false}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     { useNativeDriver: false }
