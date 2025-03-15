@@ -1,16 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../hooks/useTheme';
+import { Feature } from '../../types/feature';
 
 const { width } = Dimensions.get('window');
-
-interface Feature {
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-};
 
 interface FeatureCarouselProps {
     features: Feature[];
@@ -28,7 +23,11 @@ export const FeatureCarousel = ({ features, scrollX }: FeatureCarouselProps) => 
                     backgroundColor: colors.primary + '20', // Color primario con opacidad
                     shadowColor: colors.primary
                 }]}>
-                    <Ionicons name={item.icon as any} size={40} color={colors.primary} />
+                    {item.imagePath ? (
+                        <Image source={item.imagePath} style={styles.featureImage} contentFit='contain' />
+                    ): item.iconName ? (
+                        <Ionicons name={item.iconName as any} size={40} color={colors.primary} />
+                    ): null}
                 </View>
                 <Text style={[styles.featureTitle, {
                     color: colors.text,
@@ -46,10 +45,26 @@ export const FeatureCarousel = ({ features, scrollX }: FeatureCarouselProps) => 
         );
     };
 
+    // Calculamos dinámicamente las posiciones para los indicadores
+    const inputRange = [];
+    const outputRange = [];
+    const indicatorSpacing = 20;
+
+    // Construimos los rangos dinámicamente basados en el número de elementos
+    for (let i = 0; i < features.length; i++) {
+        inputRange.push(i * width);
+        outputRange.push(i * indicatorSpacing); // El espacio entre los indicadores
+    };
+
+    // Restamos el espacio a todo el outputRange para que el Indicador conicida y se ajusta con features.length
+    // multiplicado por 0.5 (proporción empírica) para mantenerse dinámicamente.
+    const OutputRange = outputRange.map(output => output - (indicatorSpacing * (0.5 * (features.length - 1))));
+    
     // Calculamos la posición para los indicadores del carrusel
     const indicatorPositon = scrollX.interpolate({
-        inputRange: [0, width, width * 2],
-        outputRange: [-20, 0, 20],
+        inputRange,
+        outputRange: OutputRange,
+        extrapolate: 'clamp', // Evita que el indicador se mueva fuera de los límites
     });
 
     return (
@@ -103,6 +118,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
+    },
+    featureImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
     },
     featureTitle: {
         fontWeight: '600',

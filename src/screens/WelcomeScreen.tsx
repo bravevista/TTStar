@@ -5,26 +5,35 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../hooks/useTheme';
 import { FeatureCarousel } from '../components/specific/FeatureCarousel';
 import { Button } from '../components/common/Button';
+import { Feature } from '../types/feature';
 
 // Datos de características para el carrusel - HARDCODE
-const FEATURES = [
+const FEATURES: Feature[] = [
     {
         id: '1',
         title: 'Diseño Intuitivo',
         description: 'Interfaz fácil de usar con navegación fluida y diseño moderno',
-        icon: 'layers-outline',
+        iconName: 'layers-outline',
+        // Si prefieres usar una imagen:
+        // imagePath: require('../assets/images/design.png'),
     },
     {
         id: '2',
         title: 'Personalización Total',
         description: 'Adapta la aplicación a tus necesidades y preferencias personales',
-        icon: 'color-palette-outline',
+        iconName: 'color-palette-outline',
     },
     {
         id: '3',
         title: 'Sincronización en la Nube',
         description: 'Accede a tus datos desde cualquier dispositivo en tiempo real',
-        icon: 'cloud-outline',
+        iconName: 'cloud-outline',
+    },
+    {
+        id: '4',
+        title: 'Sincronización en la Nube',
+        description: 'Accede a tus datos desde cualquier dispositivo en tiempo real',
+        iconName: 'cloud-outline',
     },
 ];
 
@@ -54,12 +63,12 @@ const WelcomeScreen = ({ navigation }: any) => {
 
             {/* Header con logo y botón de tema */}
             <View style={styles.header}>
-                <Image source={require('../assets/images/logo.png')} style={styles.logo} contentFit='contain' />
-                <Text style={[
-                    styles.nameLogo, { color: colors.text, fontSize: typography.fontSizes.xxxl }
-                ]}>
-                    trustthreads
-                </Text>
+                <View style={styles.logoContainer}>
+                    <Image source={require('../assets/images/logo.png')} style={styles.logo} contentFit='contain' />
+                    <Text style={[styles.nameLogo, { color: colors.text, fontSize: typography.fontSizes.xl }]}>
+                        trustthreads
+                    </Text>
+                </View>
                 <TouchableOpacity onPress={toggleTheme} style={[
                     styles.themeToggle, { backgroundColor: colors.card, ...shadows.sm }
                 ]}>
@@ -67,7 +76,7 @@ const WelcomeScreen = ({ navigation }: any) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Título de bienvenida */}
+            {/* Título de bienvenida
             <View style={styles.welcomeSection}>
                 <Text style={[
                     styles.welcomeTitle, { color: colors.text, fontSize: typography.fontSizes.xxxl }
@@ -79,7 +88,7 @@ const WelcomeScreen = ({ navigation }: any) => {
                 ]}>
                     Descubre todo lo que puedes hacer con nuestra aplicación
                 </Text>
-            </View>
+            </View> */}
 
             {/*  Carrusel de características */}
             <View style={styles.featuresSection}>
@@ -115,19 +124,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingTop: 10,
+        paddingBottom: 10,
+    },
+    logoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     logo: {
-        width: 32,
-        height: 32,
+        width: 25,
+        height: 25,
+        marginRight: 8,
     },
     nameLogo: {
-        width: 280,
         fontWeight: '400',
         fontStyle: 'italic'
     },
     themeToggle: {
-        width: 40,
-        height: 40,
+        width: 37,
+        height: 37,
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
