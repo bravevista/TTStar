@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Image } from 'expo-image';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Animated } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+
 import { useTheme } from '../hooks/useTheme';
 import { FeatureCarousel } from '../components/specific/FeatureCarousel';
 import { Button } from '../components/common/Button';
 import { Feature } from '../types/feature';
+import { WelcomeScreenProps } from '../types/navigation';
+import Header from '../components/common/Header';
 
 // Datos de características para el carrusel - HARDCODE
 const FEATURES: Feature[] = [
@@ -37,13 +39,13 @@ const FEATURES: Feature[] = [
     },
 ];
 
-const WelcomeScreen = ({ navigation }: any) => {
+export default function WelcomeScreen({ navigation, route }: WelcomeScreenProps) {
     const { colors, toggleTheme, theme, spacing, typography, shadows } = useTheme();
     const [scrollX] = useState(new Animated.Value(0));
 
     const handleLogin = () => {
         // Navegación a la pantalla de inicio de sesión
-        // navigation.navigate('Login');
+        navigation.navigate('Login');
         console.log('Navegando a Login');
     };
 
@@ -54,14 +56,21 @@ const WelcomeScreen = ({ navigation }: any) => {
     };
 
     return (
-        <View style={[
-            styles.container, { backgroundColor: colors.background },
-        ]}>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
             <StatusBar barStyle={theme ===  'dark' ? 'light-content' : 'dark-content'} 
                 backgroundColor={colors.background}
             />
 
-            {/* Header con logo y botón de tema */}
+            <Header 
+                primaryColor={colors.primary}
+                nameLogoColor={colors.text}
+                nameLogoFontSize={typography.fontSizes.xl} 
+                toggleTheme={toggleTheme} 
+                colorCard={colors.card} 
+                shadows={shadows.sm}
+                theme={theme}
+            />
+            {/* Header con logo y botón de tema
             <View style={styles.header}>
                 <View style={styles.logoContainer}>
                     <Image source={require('../assets/images/logo.png')} style={styles.logo} contentFit='contain' />
@@ -74,7 +83,7 @@ const WelcomeScreen = ({ navigation }: any) => {
                 ]}>
                     <Ionicons name={theme === 'dark' ? 'sunny-outline' : 'moon-outline'} size={24} color={colors.primary} />
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* Título de bienvenida
             <View style={styles.welcomeSection}>
@@ -176,5 +185,3 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-
-export default WelcomeScreen;

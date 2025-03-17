@@ -1,19 +1,16 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { RootStackParamList } from '../types/navigation';
+
+// Importación de pantallas
 import WelcomeScreen from '../screens/WelcomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import LoginScreen from '../screens/LoginScreen';
 
-export type RootStackParamList = {
-    Onboarding: undefined;
-    Welcome: undefined;
-    Login: undefined;
-};
-
 const Stack = createStackNavigator<RootStackParamList>();
 
-export const AppNavigator = () => {
+export default function AppNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName='Onboarding' screenOptions={{
