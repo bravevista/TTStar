@@ -4,7 +4,7 @@ import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-n
 //Definimos los colores para los temas:
 export const colors = {
     light: {
-      primary: '#7048E8',         // Violeta labanda principal
+      primary: '#6B4CE6',         // Violeta labanda principal
       secondary: '#4C6EF5',       // Azul para acentos
       background: '#FFFFFF',      // Fondo blanco
       card: '#F2F2FA',            // Tarjetas y elementos de UI
@@ -20,7 +20,7 @@ export const colors = {
       ripple: 'rgba(0, 0, 0, 0.1)', // Efecto ripple
     },
     dark: {
-      primary: '#6B4CE6',         // Violeta labanda principal más claro
+      primary: '#6650E4',         // Violeta labanda principal más claro
       secondary: '#748FFC',       // Azul más claro para acentos
       background: '#121212',      // Fondo oscuro
       card: '#1E1E1E',            // Tarjetas y elementos de UI

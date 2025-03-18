@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, useWindowDimensions, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions, StatusBar, Alert, BackHandler } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Image } from 'expo-image';
 
@@ -8,6 +8,7 @@ import { useTheme } from '../hooks/useTheme';
 import { NavigationButton } from '../components/specific/onboarding/NavigationButton';
 import { OnboardingScreenProps } from '../types/navigation';
 import Header from '../components/common/Header';
+import { useFocusEffect } from '@react-navigation/native';
 
 type typeButton = 'PrevButton' | 'SkipButton' | 'NextButton' | 'DoneButton';
 
@@ -27,9 +28,24 @@ export default function OnboardingScreen({ navigation, route }: OnboardingScreen
 
     useEffect(() => {
         if (showHomepage) {
-            navigation.navigate('Welcome');
+            navigation.replace('Welcome');
         };
     }, [showHomepage]);
+
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         Alert.alert('¡Espera! - O', '¿Quieres salir de TrustThreads?', [
+    //             { text: 'No', onPress: () => null , style: 'cancel' },
+    //             { text: 'Sí', onPress: () => BackHandler.exitApp() }
+    //         ], {
+    //             cancelable: true,
+    //             userInterfaceStyle: 'unspecified',
+    //         });
+    //         return true;
+    //     };
+    //     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    //     return () => backHandler.remove();
+    // }, []);
 
     if (!showHomepage) {
         return (
@@ -67,7 +83,8 @@ export default function OnboardingScreen({ navigation, route }: OnboardingScreen
                                     colorCard={colors.card} 
                                     shadows={shadows.sm}
                                     theme={theme}
-                                    showLogoWithName={false}
+                                    showLogo={false}
+                                    showName={false}
                                 />
                             </View>
                         </View>
@@ -91,7 +108,11 @@ export default function OnboardingScreen({ navigation, route }: OnboardingScreen
         );
     };
 
-    return null;
+    return (
+        <View style={styles.container}>
+            <Text>No deveria ver esto</Text>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

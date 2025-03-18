@@ -11,17 +11,20 @@ export default function Header({
     colorCard,
     shadows,
     theme,
-    showLogoWithName = true, // Controla si se muestra el logo con el nombre
+    showLogo = true, // Controla si se muestra el logo
+    showName = true, // Controla si se muestra el nombre
     showThemeButton = true, // Controla si se muestra el botón de tema
 }: any) {
     return (
         <View style={styles.header}>
-            {showLogoWithName && (
+            {(showLogo || showName) && (
                 <View style={styles.logoContainer}>
-                    <LogoSVG primaryColor={primaryColor} />
-                    <Text style={[styles.nameLogo, { color: nameLogoColor, fontSize: nameLogoFontSize }]}>
-                        trustthreads
-                    </Text>
+                    {showLogo && <LogoSVG primaryColor={primaryColor} />}
+                    {showName && (
+                        <Text style={[styles.nameLogo, { color: nameLogoColor, fontSize: nameLogoFontSize }]}>
+                            trustthreads
+                        </Text>
+                    )}
                 </View>
             )}
             {showThemeButton && (
@@ -43,7 +46,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 10,
         paddingBottom: 10,
-        gap: 12,
     },
     logoContainer: {
         flexDirection: 'row',

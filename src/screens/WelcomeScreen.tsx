@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Animated, Alert, BackHandler } from 'react-native';
 
 import { useTheme } from '../hooks/useTheme';
 import { FeatureCarousel } from '../components/specific/FeatureCarousel';
@@ -44,9 +44,7 @@ export default function WelcomeScreen({ navigation, route }: WelcomeScreenProps)
     const [scrollX] = useState(new Animated.Value(0));
 
     const handleLogin = () => {
-        // Navegación a la pantalla de inicio de sesión
         navigation.navigate('Login');
-        console.log('Navegando a Login');
     };
 
     const handleRegister = () => {

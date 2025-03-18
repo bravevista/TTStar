@@ -1,4 +1,4 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 
 // Definición de todas las rutas disponibles en la aplicación
@@ -12,11 +12,11 @@ export type RootStackParamList = {
 };
 
 // Tipos de propiedades de navegación para cada pantalla
-export type OnboardingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Onboarding'>;
-export type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome'>;
-export type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
-export type RegisterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;
-export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+export type OnboardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
+export type WelcomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
+export type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+export type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
+export type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 // Tipos de propiedades de ruta para cada pantalla
 export type OnboardingScreenRouteProp = RouteProp<RootStackParamList, 'Onboarding'>;

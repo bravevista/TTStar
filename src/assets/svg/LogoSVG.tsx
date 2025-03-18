@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Svg, { G, Path, Rect } from 'react-native-svg';
 
-export default function LogoSVG({ primaryColor }: any) {
+export default function LogoSVG({ primaryColor='#6B4CE6', size = 25 }: any) {
     return (
         <View>
-            <Svg width='25.000000pt' height='25.000000pt' viewBox='0 0 500.000000 500.000000' preserveAspectRatio='xMidYMid meet'>
+            <Svg width={size} height={size} viewBox='0 0 500.000000 500.000000' preserveAspectRatio='xMidYMid meet'>
                 <G transform='translate(0.000000,500.000000) scale(0.100000,-0.100000)' fill={primaryColor} stroke='none'>
                     <Rect fill='#fff' stroke='none' width='406' height='455' x='51.7' y='21.5' transform='matrix(9.9999998,0,0,-9.9999998,0,5000)' />
                     <Path
