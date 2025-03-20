@@ -1,10 +1,18 @@
 {
   "expo": {
     "name": "TTStar",
+    "description": "App movil de TrutThreads",
     "slug": "TTStar",
+    "owner": "bravevista",
     "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "githubUrl": "https://github.com/bravevista/TTStar",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
+    "notification": {},
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {

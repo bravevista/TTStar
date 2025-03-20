@@ -25,8 +25,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
 
     const handleHome = () => {
         // Navegación a la pantalla de inicio de sesión
-        //navigation.navigate('Home');
-        console.log('Navegando a Home');
+        navigation.navigate('Home');
     };
 
     return (
