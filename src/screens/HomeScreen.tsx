@@ -4,9 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { HomeScreenProps } from "../types/navigation";
 import { TestRepository } from "../api/repository/test";
 import { User } from "../api/interface/userTest";
+import { useTheme } from "../hooks/useTheme";
 
 export default function HomeScreen({ navigation, route }: HomeScreenProps) {
-    const { data, isLoading, error } = useQuery<User[]>({
+    const { colors } = useTheme();
+    
+    const { data: users, isLoading, error } = useQuery<User[]>({
         queryKey: ['users'],
         queryFn: TestRepository.getUsers,
     });
@@ -20,9 +23,9 @@ export default function HomeScreen({ navigation, route }: HomeScreenProps) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.background2 }]}>
             <FlatList 
-                data={data}
+                data={users}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View>

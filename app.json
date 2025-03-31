@@ -2,8 +2,8 @@
   "expo": {
     "name": "TTStar",
     "description": "App movil de TrutThreads",
-    "slug": "TTStar",
-    "owner": "bravevista",
+    "slug": "trustthreads",
+    "owner": "trustthreads",
     "version": "1.0.0",
     "platforms": [
       "ios",
@@ -37,9 +37,16 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Poppins-Regular.ttf"] 
+          "fonts": [
+            "./assets/fonts/Poppins-Regular.ttf"
+          ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1fea8c92-d4d4-417e-85ed-0ff684e7f5d9"
+      }
+    }
   }
 }

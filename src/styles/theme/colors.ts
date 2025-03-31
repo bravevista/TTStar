@@ -7,6 +7,7 @@ export const colors = {
       primary: '#6B4CE6',         // Violeta labanda principal
       secondary: '#4C6EF5',       // Azul para acentos
       background: '#FFFFFF',      // Fondo blanco
+      background2: '#F3F3F3',
       card: '#F2F2FA',            // Tarjetas y elementos de UI
       text: '#212529',            // Texto principal
       textSecondary: '#6C757D',   // Texto secundario
@@ -22,7 +23,8 @@ export const colors = {
     dark: {
       primary: '#6650E4',         // Violeta labanda principal más claro
       secondary: '#748FFC',       // Azul más claro para acentos
-      background: '#121212',      // Fondo oscuro
+      background: '#080808',      // Fondo oscuro
+      background2: '#121212',     //
       card: '#1E1E1E',            // Tarjetas y elementos de UI
       text: '#F8F9FA',            // Texto principal
       textSecondary: '#ADB5BD',   // Texto secundario

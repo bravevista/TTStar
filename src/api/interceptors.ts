@@ -1,6 +1,6 @@
 import { api } from "../config/Axios";
 
-// ✅ Interceptor para manejar errores globalmente
+// ✅ Interceptor de auth
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
