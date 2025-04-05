@@ -6,17 +6,17 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import Header from '../components/common/Header';
-import SignInSVG from '../assets/svg/SignInSVG';
-import { loginSchema } from '../api/validation/auth.validator'
-import { useTheme } from '../hooks/useTheme';
-import { Button } from '../components/common/Button';
-import { NaviButton } from '../components/common/NaviButton';
-import { LoginScreenProps } from '../types/navigation';
-import { AuthModule } from '../api/repository/auth.repository';
-import { Credentials } from '../api/interface/request/credentials';
+import Header from '../../components/common/Header';
+import SignInSVG from '../../assets/svg/SignInSVG';
+import { loginSchema } from '../../api/validation/auth.validator'
+import { useTheme } from '../../hooks/useTheme';
+import { Button } from '../../components/common/Button';
+import { NaviButton } from '../../components/common/NaviButton';
+import { ScreenProps } from '../../types/navigation';
+import { AuthModule } from '../../api/repository/auth.repository';
+import { Credentials } from '../../api/interface/request/credentials.request';
 
-export default function LoginScreen({ navigation, route }: LoginScreenProps) {
+export default function LoginScreen({ navigation, route }: ScreenProps<'Login'>) {
     const { colors, toggleTheme, theme, typography, shadows } = useTheme();
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [focusedInput, setFocusedInput] = useState<string | null>(null);
@@ -49,7 +49,11 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
                 visibilityTime: 2500,
             });
             console.log('Login exitoso:', data);
-            navigation.replace('Main');
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Main' }],
+            });
+            //navigation.replace('Main');
         },
         onError: (err) => {
             Toast.show({

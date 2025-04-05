@@ -1,12 +1,12 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 
-import { HomeScreenProps } from "../types/navigation";
-import { TestRepository } from "../api/repository/test";
-import { User } from "../api/interface/userTest";
-import { useTheme } from "../hooks/useTheme";
+import { TabScreenProps } from "../../types/navigation";
+import { TestRepository } from "../../api/repository/test";
+import { User } from "../../api/interface/userTest";
+import { useTheme } from "../../hooks/useTheme";
 
-export default function HomeScreen({ navigation, route }: HomeScreenProps) {
+export default function HomeScreen({ navigation, route }: TabScreenProps<'HomeTab'>) {
     const { colors } = useTheme();
     
     const { data: users, isLoading, error } = useQuery<User[]>({

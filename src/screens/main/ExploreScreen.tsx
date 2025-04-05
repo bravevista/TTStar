@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ExploreScreen() {
+import { TabScreenProps } from '../../types/navigation';
+
+export default function ExploreScreen({ navigation, route }: TabScreenProps<'ExploreTab'>) {
     return (
         <View style={styles.container}>
             <Text>Explore</Text>

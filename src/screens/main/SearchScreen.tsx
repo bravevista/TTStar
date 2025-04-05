@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function SearchScreen() {
+import { TabScreenProps } from "../../types/navigation";
+
+export default function SearchScreen({}: TabScreenProps<'SearchTab'>) {
     return (
         <View style={styles.container}>
             <Text>

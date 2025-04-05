@@ -3,16 +3,16 @@ import { StyleSheet, Text, View, useWindowDimensions, StatusBar, Alert, BackHand
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Image } from 'expo-image';
 
-import slidesData from '../data/slides.data';
-import { useTheme } from '../hooks/useTheme';
-import { NavigationButton } from '../components/specific/onboarding/NavigationButton';
-import { OnboardingScreenProps } from '../types/navigation';
-import Header from '../components/common/Header';
+import slidesData from '../../data/slides.data';
+import { useTheme } from '../../hooks/useTheme';
+import { NavigationButton } from '../../components/specific/onboarding/NavigationButton';
+import { ScreenProps } from '../../types/navigation';
+import Header from '../../components/common/Header';
 import { useFocusEffect } from '@react-navigation/native';
 
 type typeButton = 'PrevButton' | 'SkipButton' | 'NextButton' | 'DoneButton';
 
-export default function OnboardingScreen({ navigation, route }: OnboardingScreenProps) {
+export default function OnboardingScreen({ navigation, route }: ScreenProps<'Onboarding'>) {
     const { colors, toggleTheme, theme, typography, shadows } = useTheme();
     const { width, height } = useWindowDimensions();
     const [showHomepage, setShowHomePage] = useState(false);
@@ -28,7 +28,11 @@ export default function OnboardingScreen({ navigation, route }: OnboardingScreen
 
     useEffect(() => {
         if (showHomepage) {
-            navigation.replace('Welcome');
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Welcome' }],
+            });
+            //navigation.replace('Welcome');
         };
     }, [showHomepage]);
 

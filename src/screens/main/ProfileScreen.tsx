@@ -1,15 +1,49 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useMutation } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { FontAwesome6 } from '@expo/vector-icons';
 import Svg, { Line } from 'react-native-svg';
+import Toast from 'react-native-toast-message';
 
-import { useTheme } from '../hooks/useTheme';
-import VerifiedCheck from '../assets/svg/VerifiedCheck';
-import InfoButton from '../components/common/InfoButton';
+import { useTheme } from '../../hooks/useTheme';
+import { AuthModule } from '../../api/repository/auth.repository';
+import VerifiedCheck from '../../assets/svg/VerifiedCheck';
+import InfoButton from '../../components/common/InfoButton';
+import { TabScreenProps, ScreenProps, RootStackParamList } from '../../types/navigation';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation, route }: TabScreenProps<'ProfileTab'>) {
     const { colors, typography } = useTheme();
+    const navigationTwo = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+    const { data, mutate, isPending, error } = useMutation({
+        mutationFn: AuthModule.logout,
+        onSuccess: (data) => {
+            Toast.show({
+                type: 'success',
+                text1: '¡Sesión cerrada!',
+                text2: 'Has cerrado la sesión correctamente.',
+                position: 'bottom',
+                visibilityTime: 2500,
+            });
+            console.log('Logout exitoso:', data);
+            navigationTwo.reset({
+                index: 0,
+                routes: [{ name: 'Welcome' }],
+            });
+        },
+        onError: (err) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Error al cerrar sesión.',
+                text2: err.message || 'Error de recepción de credenciales.',
+                position: 'bottom',
+                visibilityTime: 4000,
+            });
+        },
+    });
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background2 }]}>
@@ -79,11 +113,31 @@ export default function ProfileScreen() {
             <View style={[styles.optionContainer, { backgroundColor: colors.background }]}>
                 <Text style={[styles.headerOption, { color: colors.text, fontSize: typography.fontSizes.xl }]}>Sesión</Text>
                 <View style={styles.optionWrapped}>
-                    <InfoButton text='Cerrar sesión' iconFamily='Entypo' iconName='log-out' />
+                    <InfoButton text='Cerrar sesión' iconFamily='Entypo' iconName='log-out' textColor={colors.error} onPress={mutate} />
                 </View>
             </View>
 
             <Text style={[{ color: colors.textSecondary }]}>Versión: 0.1.1 Alfa cerrada</Text>
+
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={isPending}
+                onRequestClose={() => {}}
+            >
+                <View style={styles.modalBackground}>
+                    <View style={[styles.modalContainer, { backgroundColor: colors.card }]}>
+                        <ActivityIndicator 
+                            size="large" 
+                            color={colors.primary} 
+                        />
+                        <Text style={[styles.loadingText, { color: colors.text }]}>
+                            Cerrando sesión...
+                        </Text>
+                    </View>
+                </View>
+            </Modal>
+            <Toast />
         </View>
     );
 };
@@ -162,6 +216,27 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     optionWrapped: {
-        gap: 5,
+        gap: 0,
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContainer: {
+        width: '70%',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    loadingText: {
+        marginTop: 15,
+        fontSize: 16,
     },
 });

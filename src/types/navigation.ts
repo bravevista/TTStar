@@ -9,66 +9,35 @@ export type RootStackParamList = {
     Login: undefined;
     Register: undefined;
     Main: undefined;
-    // Aquí añades más rutas según vayas creando pantallas
+    PostDetails: { postId: string };
+    Appearance: undefined;
+    // Aquí añades pantallas que necesitan navegacion directa
 };
 
+// Pantallas vinculadas al BottonNavigation
 export type RootTabParamList = {
-    Home: undefined;
-    Search: undefined;
-    Explore: undefined;
-    Contacts: undefined;
-    Profile: undefined;
+    HomeTab: undefined;
+    SearchTab: undefined;
+    ExploreTab: undefined;
+    ContactsTab: undefined;
+    ProfileTab: undefined;
 };
 
-// Tipos de propiedades de navegación para cada pantalla
-export type OnboardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
-export type WelcomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
-export type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
-export type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
-export type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Home'>;
-export type SearchScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Search'>;
-export type ExploreScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Explore'>;
-export type ContactsScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Contacts'>;
-export type ProfileScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Profile'>;
-
-// Tipos de propiedades de ruta para cada pantalla
-export type OnboardingScreenRouteProp = RouteProp<RootStackParamList, 'Onboarding'>;
-export type WelcomeScreenRouteProp = RouteProp<RootStackParamList, 'Welcome'>;
-export type LoginScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
-export type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
-export type HomeScreenRouteProp = RouteProp<RootTabParamList, 'Home'>;
-export type SearchScreenRouteProp = RouteProp<RootTabParamList, 'Search'>;
-export type ExploreScreenRouteProp = RouteProp<RootTabParamList, 'Explore'>;
-export type ContactsScreenRouteProp = RouteProp<RootTabParamList, 'Contacts'>;
-export type ProfileScreenRouteProp = RouteProp<RootTabParamList, 'Profile'>;
+// Pantallas a las que se puede acceder desde el BottomTab pero no estan en él
+export type MainStackParamList = {
+    MainTabs: undefined; // Pantalla que contiene el BottomTabNavigator
+    Profile: {postId: string };
+    Appearance: undefined;
+    PostModal: undefined;
+};
 
 // Props para los componentes de pantalla
-export interface OnboardingScreenProps {
-    navigation: OnboardingScreenNavigationProp;
-    route: OnboardingScreenRouteProp;
+export type ScreenProps<T extends keyof RootStackParamList> ={
+    navigation: NativeStackNavigationProp<RootStackParamList, T>;
+    route: RouteProp<RootStackParamList, T>;
 };
 
-export interface WelcomeScreenProps {
-    navigation: WelcomeScreenNavigationProp;
-    route: WelcomeScreenRouteProp;
-};
-
-export interface LoginScreenProps {
-    navigation: LoginScreenNavigationProp;
-    route: LoginScreenRouteProp;
-};
-
-export interface RegisterScreenProps {
-    navigation: RegisterScreenNavigationProp;
-    route: RegisterScreenRouteProp;
-};
-
-export interface HomeScreenProps {
-    navigation: HomeScreenNavigationProp;
-    route: HomeScreenRouteProp;
-};
-
-export interface SearchScreenProps {
-    navigation: SearchScreenNavigationProp;
-    route: SearchScreenRouteProp;
+export type TabScreenProps<T extends keyof RootTabParamList> = {
+    navigation: BottomTabNavigationProp<RootTabParamList, T>;
+    route: RouteProp<RootTabParamList, T>;
 };

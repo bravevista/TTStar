@@ -6,7 +6,7 @@ api.interceptors.response.use(
     async (error) => {
         if (error.response?.status === 401) {
             console.warn('Sesión expirada. Intentando refrescar toke...');
-            await api.get('/refresh-token'); // 🔄 Intentar renovar token
+            await api.get('/auth/refresh-token'); // 🔄 Intentar renovar token
             return api(error.config); // Reintentar la petición original
         };
         return Promise.reject(error);

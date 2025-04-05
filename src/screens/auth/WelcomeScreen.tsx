@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Animated, Alert, BackHandler } from 'react-native';
 
-import { useTheme } from '../hooks/useTheme';
-import { FeatureCarousel } from '../components/specific/FeatureCarousel';
-import { Button } from '../components/common/Button';
-import { Feature } from '../types/feature';
-import { WelcomeScreenProps } from '../types/navigation';
-import Header from '../components/common/Header';
+import { useTheme } from '../../hooks/useTheme';
+import { FeatureCarousel } from '../../components/specific/FeatureCarousel';
+import { Button } from '../../components/common/Button';
+import { Feature } from '../../types/feature';
+import { ScreenProps } from '../../types/navigation';
+import Header from '../../components/common/Header';
 
 // Datos de características para el carrusel - HARDCODE
 const FEATURES: Feature[] = [
@@ -39,7 +39,7 @@ const FEATURES: Feature[] = [
     },
 ];
 
-export default function WelcomeScreen({ navigation, route }: WelcomeScreenProps) {
+export default function WelcomeScreen({ navigation, route }: ScreenProps<'Welcome'>) {
     const { colors, toggleTheme, theme, spacing, typography, shadows } = useTheme();
     const [scrollX] = useState(new Animated.Value(0));
 
