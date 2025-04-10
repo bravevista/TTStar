@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, Modal, ActivityIndicator, StatusBar, ScrollView, Keyboard, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useMutation } from '@tanstack/react-query';
@@ -7,6 +7,7 @@ import { Image } from 'expo-image';
 import { FontAwesome6 } from '@expo/vector-icons';
 import Svg, { Line } from 'react-native-svg';
 import Toast from 'react-native-toast-message';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 import { useTheme } from '../../hooks/useTheme';
 import { AuthModule } from '../../api/repository/auth.repository';
@@ -15,7 +16,7 @@ import InfoButton from '../../components/common/InfoButton';
 import { TabScreenProps, ScreenProps, RootStackParamList } from '../../types/navigation';
 
 export default function ProfileScreen({ navigation, route }: TabScreenProps<'ProfileTab'>) {
-    const { colors, typography } = useTheme();
+    const { colors, typography, theme } = useTheme();
     const navigationTwo = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const { data, mutate, isPending, error } = useMutation({
@@ -46,7 +47,10 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
     });
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.background2 }]}>
+        <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background2 }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+                backgroundColor={colors.background}
+            />
             <View style={[styles.profile, { backgroundColor: colors.background }]}>
                 <View>
                     <Image source={'https://img.freepik.com/free-vector/night-ocean-landscape-full-moon-stars-shine_107791-7397.jpg'} style={[styles.image, { borderColor: colors.primary }]} contentFit='cover' />
@@ -88,25 +92,26 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
                 </Svg>
 
                 <View style={styles.goProfile}>
-                    <FontAwesome6 name='arrow-up-right-from-square' size={25} color={colors.text} />
+                    <FontAwesome6 name='arrow-up-right-from-square' size={moderateScale(21)} color={colors.text} />
                 </View>
             </View>
             
             <View style={[styles.optionContainer, { backgroundColor: colors.background }]}>
                 <Text style={[styles.headerOption, { color: colors.text, fontSize: typography.fontSizes.xl }]}>General</Text>
                 <View style={styles.optionWrapped}>
-                    <InfoButton text='Apariencia' iconFamily='Octicons' iconName='paintbrush' />
+                    <InfoButton text='Apariencia' iconFamily='Octicons' iconName='paintbrush' navigateTo='Appearance' />
+                    <InfoButton text='Accesibilidad' iconFamily='Octicons' iconName='accessibility' navigateTo='Accessibility' />
                 </View>
             </View>
 
             <View style={[styles.optionContainer, { backgroundColor: colors.background }]}>
                 <Text style={[styles.headerOption, { color: colors.text, fontSize: typography.fontSizes.xl }]}>Ayuda</Text>
                 <View style={styles.optionWrapped}>
-                    <InfoButton text='Preguntas frecuentes' iconFamily='MaterialCommunityIcons' iconName='head-question-outline' />
-                    <InfoButton text='Ayuda' />
-                    <InfoButton text='Feedback' iconFamily='MaterialCommunityIcons' iconName='message-bookmark-outline' />
-                    <InfoButton text='Políticas de privacidad' iconFamily='MaterialIcons' iconName='privacy-tip' />
-                    <InfoButton text='Términos de uso' iconFamily='Ionicons' iconName='newspaper-outline' />
+                    <InfoButton text='Preguntas frecuentes' iconFamily='MaterialCommunityIcons' iconName='head-question-outline' navigateTo='FAQ' />
+                    <InfoButton text='Ayuda' navigateTo='Help' />
+                    <InfoButton text='Feedback' iconFamily='MaterialCommunityIcons' iconName='message-bookmark-outline' navigateTo='Feedback' />
+                    <InfoButton text='Políticas de privacidad' iconFamily='MaterialIcons' iconName='privacy-tip' navigateTo='SecurityPolicies' />
+                    <InfoButton text='Términos de uso' iconFamily='Ionicons' iconName='newspaper-outline' navigateTo='TermsOfUse' />
                 </View>
             </View>
             
@@ -117,7 +122,7 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
                 </View>
             </View>
 
-            <Text style={[{ color: colors.textSecondary }]}>Versión: 0.1.1 Alfa cerrada</Text>
+            <Text style={[styles.version, { color: colors.textSecondary }]}>Versión: 0.1.1 Alfa cerrada</Text>
 
             <Modal
                 transparent={true}
@@ -138,85 +143,84 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
                 </View>
             </Modal>
             <Toast />
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        top: 10,
-        gap: 10,
+        paddingTop: verticalScale(10),
+        gap: moderateScale(10),
     },
     profile: {
-        width: 420,
-        height: 85,
-        borderRadius: 15,
-        paddingHorizontal: 5,
+        width: scale(320),
+        height: verticalScale(70),
+        borderRadius: moderateScale(15),
+        paddingHorizontal: scale(5),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
     },
     image: {
-        width: 55,
-        height: 55,
+        width: moderateScale(50),
+        height: moderateScale(50),
         borderRadius: 50,
-        borderWidth: 3,
+        borderWidth: scale(3),
     },
     body: {
-        width: 220,
+        width: scale(170),
     },
     data: {
-        paddingHorizontal: 2,
+        paddingHorizontal: scale(2),
     },
     name: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        gap: 7,
+        gap: moderateScale(7),
     },
     horizontalLine: {
         width: '100%',
-        marginVertical: 3,
+        marginVertical: verticalScale(3),
     },
     verticalLine: {
         height: '50%',
-        marginHorizontal: 1,
+        marginHorizontal: scale(1),
     },
     insigniaContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        paddingHorizontal: 3,
-        gap: 10,
+        paddingHorizontal: scale(2),
+        gap: moderateScale(10),
     },
     insignia: {
         flexDirection: 'row',
-        gap: 5,
+        gap: moderateScale(5),
         justifyContent: 'space-between',
         alignItems: 'center',
     },
     icoInsignia: {
-        width: 15,
-        height: 15,
+        width: moderateScale(14),
+        height: moderateScale(14),
     },
     goProfile: {
-        paddingRight: 10,
+        paddingRight: scale(10),
     },
     optionContainer: {
         flexDirection: 'column',
-        paddingVertical: 10,
-        borderRadius: 15,
-        width: 420,
+        paddingVertical: verticalScale(8),
+        borderRadius: moderateScale(15),
+        width: scale(320),
     },
     headerOption: {
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: verticalScale(8),
+        paddingHorizontal: scale(18),
         fontWeight: 'bold'
     },
     optionWrapped: {
-        gap: 0,
+        gap: moderateScale(0),
     },
     modalBackground: {
         flex: 1,
@@ -225,9 +229,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContainer: {
-        width: '70%',
-        padding: 20,
-        borderRadius: 10,
+        width: scale(250),
+        padding: moderateScale(18),
+        borderRadius: moderateScale(10),
         alignItems: 'center',
         elevation: 5,
         shadowColor: '#000',
@@ -236,7 +240,10 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
     },
     loadingText: {
-        marginTop: 15,
-        fontSize: 16,
+        marginTop: verticalScale(15),
+        fontSize: moderateScale(16),
+    },
+    version: {
+        paddingBottom: verticalScale(20),
     },
 });

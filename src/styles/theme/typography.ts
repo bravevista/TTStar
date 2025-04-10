@@ -1,3 +1,5 @@
+import { moderateScale } from 'react-native-size-matters';
+
 interface Typography {
     fontSizes: {
         xs: number;
@@ -26,13 +28,13 @@ type FontWeight = 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '6
 
 export const typography: Typography = {
     fontSizes: {
-        xs: 12,
-        sm: 14,
-        md: 16,
-        lg: 18,
-        xl: 20,
-        xxl: 24,
-        xxxl: 30,
+        xs: moderateScale(10), //12
+        sm: moderateScale(12), //14  
+        md: moderateScale(14), //16
+        lg: moderateScale(16), //18
+        xl: moderateScale(18), //20
+        xxl: moderateScale(22), //24
+        xxxl: moderateScale(28), //30
     },
     fontWeights: {
         light: '300',

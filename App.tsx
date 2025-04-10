@@ -6,6 +6,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import AppNavigator from './src/navigation/AppNavigator';
 import { ThemeProvider } from './src/state/contexts/ThemeContext';
 import { queryClient } from './src/config/ReactQuery';
+import './src/api/interceptors'
 
 export default function App() {
   return (

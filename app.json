@@ -35,6 +35,14 @@
     },
     "plugins": [
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir a la aplicación acceder a tu galería para que puedas compartirlas con tus amigos.",
+          "cameraPermission": "Permitir a la aplicación el acceso a tu cámara.",
+          "microphonePermission": "Permite a la aplicación el acceso a tu micrófono."
+        }
+      ],
+      [
         "expo-font",
         {
           "fonts": [

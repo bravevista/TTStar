@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { RootStackParamList } from '../types/navigation';
 import MainAppNavigator from './MainAppNavigator';
+import { navigationRef } from '../services/Navigation.service';
 
 // Importación de pantallas de auth
 import WelcomeScreen from '../screens/auth/WelcomeScreen';
@@ -13,7 +15,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
     return (
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
             <Stack.Navigator 
                 initialRouteName='Onboarding' 
                 screenOptions={{

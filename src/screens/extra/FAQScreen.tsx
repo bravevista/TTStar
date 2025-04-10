@@ -1,19 +1,18 @@
 import { View, Text, StyleSheet, StatusBar } from "react-native";
 
-import { TabScreenProps } from "../../types/navigation";
 import { useTheme } from "../../hooks/useTheme";
 
-export default function SearchScreen({}: TabScreenProps<'SearchTab'>) {
-    const { colors, theme } = useTheme();
-    
-    return (
-        <View style={styles.container}>
+export default function FAQScreen() {
+    const { colors, typography, theme } = useTheme();
+
+    return(
+        <View style={[styles.container, { backgroundColor: colors.background2 }]}>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
                 backgroundColor={colors.background}
             />
-            <Text>
-                Search
-            </Text>
+            <View>
+                <Text style={[{ color: colors.text }]}>FAQ you</Text>
+            </View>
         </View>
     );
 };
@@ -21,8 +20,7 @@ export default function SearchScreen({}: TabScreenProps<'SearchTab'>) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ececec',
+        justifyContent: 'center',
     },
 });

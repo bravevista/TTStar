@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import * as Icons from '@expo/vector-icons';
-import { useTheme } from '../../hooks/useTheme';
 import { useNavigation } from '@react-navigation/native';
+import { scale, moderateScale, verticalScale } from 'react-native-size-matters';
+
+import { useTheme } from '../../hooks/useTheme';
 
 type IconFamily =
     | 'AntDesign'
@@ -56,7 +58,7 @@ export default function InfoButton({
         >
             <View style={styles.container}>
                 <View style={[styles.iconContainer, { borderColor: colors.card, backgroundColor: colors.card }]}>
-                    <IconComponent name={iconName} size={25} color={colors.primary} />
+                    <IconComponent name={iconName} size={moderateScale(21)} color={colors.primary} />
                 </View>
                 <Text style={[styles.word, { fontSize: typography.fontSizes.lg, color: textColor ?? colors.text }]}>
                     {text}
@@ -71,18 +73,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        gap: 20,
-        paddingVertical: 5,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginVertical: 5,
+        gap: moderateScale(12),
+        paddingVertical: verticalScale(4),
+        paddingHorizontal: scale(20),
+        borderRadius: moderateScale(5),
+        marginVertical: verticalScale(4),
     },
     iconContainer: {
-        padding: 5,
-        borderRadius: 10,
+        padding: moderateScale(4.5),
+        borderRadius: moderateScale(10),
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: scale(1),
     },
     word: {
         fontWeight: 'bold',

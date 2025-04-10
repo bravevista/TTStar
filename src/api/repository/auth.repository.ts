@@ -16,15 +16,12 @@ export const AuthModule = {
             console.error('Full Error Object:', error);
 
             if (error.response) {
-                // El servidor respondió con un estado de error
                 console.error('Response Error:', error.response.data);
                 throw new Error(error.response.data.message || 'Error del servidor');
             } else if (error.request) {
-                // Se ha solicitado pero no se ha recibido respuesta
                 console.error('Request Error:', error.request);
                 throw new Error('El servidor no responde');
             } else {
-                // Algo sucedió al configurar la solicitud
                 console.error('Network Error:', error.message);
                 throw new Error('Error de conexión');
             };
@@ -41,15 +38,12 @@ export const AuthModule = {
             console.error('Full Error Object:', error);
 
             if (error.response) {
-                // El servidor respondió con un estado de error
                 console.error('Response Error:', error.response.data);
                 throw new Error(error.response.data.message || 'Error del servidor');
             } else if (error.request) {
-                // Se ha solicitado pero no se ha recibido respuesta
                 console.error('Request Error:', error.request);
                 throw new Error('El servidor no responde');
             } else {
-                // Algo sucedió al configurar la solicitud
                 console.error('Network Error:', error.message);
                 throw new Error('Error de conexión');
             };

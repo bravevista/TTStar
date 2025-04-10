@@ -28,6 +28,12 @@ export type MainStackParamList = {
     MainTabs: undefined; // Pantalla que contiene el BottomTabNavigator
     Profile: {postId: string };
     Appearance: undefined;
+    Accessibility: undefined;
+    FAQ: undefined;
+    Help: undefined;
+    Feedback: undefined;
+    SecurityPolicies: undefined;
+    TermsOfUse: undefined;
     PostModal: undefined;
 };
 

@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, StatusBar, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 
 import { TabScreenProps } from "../../types/navigation";
@@ -7,7 +7,7 @@ import { User } from "../../api/interface/userTest";
 import { useTheme } from "../../hooks/useTheme";
 
 export default function HomeScreen({ navigation, route }: TabScreenProps<'HomeTab'>) {
-    const { colors } = useTheme();
+    const { colors, theme } = useTheme();
     
     const { data: users, isLoading, error } = useQuery<User[]>({
         queryKey: ['users'],
@@ -24,6 +24,9 @@ export default function HomeScreen({ navigation, route }: TabScreenProps<'HomeTa
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background2 }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+                backgroundColor={colors.background}
+            />
             <FlatList 
                 data={users}
                 keyExtractor={(item) => item.id.toString()}
