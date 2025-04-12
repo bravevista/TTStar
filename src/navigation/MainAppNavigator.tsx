@@ -1,25 +1,20 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import BottomTabNavigator from './BottomTabNavigator';
-import { useTheme } from '../hooks/useTheme';
 import { MainStackParamList } from '../types/navigation';
 import AppearanceScreen from '../screens/extra/AppearanceScreen';
 import PostModal from '../screens/mod/Post.modal';
 import FAQScreen from '../screens/extra/FAQScreen';
 import HelpScreen from '../screens/extra/HelpScreen';
-import FeedbackScreen from '../screens/extra/Feedback';
+import FeedbackScreen from '../screens/extra/FeedbackScreen';
 import SecurityPoliciesScreen from '../screens/extra/SecurityPoliciesScreen';
-import TermsOfUseScreen from '../screens/extra/TermsOfUse';
+import TermsOfUseScreen from '../screens/extra/TermsOfUseScreen';
 import AccessibilityScreen from '../screens/extra/AccessibilityScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
-export default function MainAppNavigator() {
-    const { colors } = useTheme();
-    
+export default function MainAppNavigator() {    
     return (
         <Stack.Navigator
             initialRouteName='MainTabs'
@@ -40,44 +35,28 @@ export default function MainAppNavigator() {
                 name="Appearance" 
                 component={AppearanceScreen} 
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Apariencia',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen 
                 name="Accessibility"
-                component={AccessibilityScreen} 
+                component={AccessibilityScreen}
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Accesibilidad',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen 
                 name="FAQ"
                 component={FAQScreen} 
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Preguntas frecuentes',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen 
                 name="Help"
                 component={HelpScreen} 
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Ayuda',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen 
@@ -91,22 +70,14 @@ export default function MainAppNavigator() {
                 name="SecurityPolicies"
                 component={SecurityPoliciesScreen}
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Políticas de privacidad',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen 
                 name="TermsOfUse"
                 component={TermsOfUseScreen}
                 options={{ 
-                    headerShown: true,
-                    headerTitle: 'Términos de uso',
-                    headerBackTitle: 'Atrás',
-                    headerTintColor: colors.text,
-                    headerStyle: { backgroundColor: colors.background },
+                    animation: 'fade_from_bottom',
                 }}
             />
 

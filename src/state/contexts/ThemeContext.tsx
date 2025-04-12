@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { useColorScheme as useDeviceColorScheme } from 'react-native';
 import { colors, spacing, typography, borderRadius, shadows } from '../../styles/theme';
-import { ThemeType, ThemeContextType } from '../../types/theme';
+import { ThemeType, ThemeContextType, ThemeMode } from '../../types/theme';
 
 // Creamos el contexto para el tema
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -9,33 +9,37 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(undefine
 // Props para nuestro proveedor de tema
 type ThemeProviderProps = {
     children: ReactNode;
-    initialTheme?: ThemeType,
+    initialThemeMode?: ThemeMode,
 };
 
 // Creamos el proovedor de tema
-export const ThemeProvider = ({ children, initialTheme }: ThemeProviderProps) => {
-    // Obtenemos el esquema de colores del dispositivo
-    const deviceColorScheme = useDeviceColorScheme() as ThemeType || 'light';
-
-    // Usamos el tema inicial proporcionado o el del dispositivo
-    const [theme, setTheme] = useState<ThemeType>(initialTheme || deviceColorScheme);
+export const ThemeProvider = ({ children, initialThemeMode = 'light' }: ThemeProviderProps) => {
+    const deviceColorScheme = useDeviceColorScheme() as ThemeType;
+    const [themeMode, setThemeMode] = useState<ThemeMode>(initialThemeMode);
+    const [theme, setTheme] = useState<ThemeType>(initialThemeMode === 'auto' ? deviceColorScheme : initialThemeMode);
 
     // Actualizamos el tema cuando cambia el esquema de colores del dispositivo
-    // (solo si no hay un tema definido)
     useEffect(() => {
-        if (!initialTheme) {
+        if (themeMode === 'auto') {
             setTheme(deviceColorScheme);
+        } else {
+            setTheme(themeMode);
         };
-    }, [deviceColorScheme, initialTheme]);
+    }, [themeMode, deviceColorScheme]);
 
     // Función para alternar el tema
-    const toggleTheme = () => {
-        setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    const toggleTheme = (mode?: ThemeMode) => {
+        if (mode) {
+            setThemeMode(mode);
+        } else {
+            setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
+        };
     };
 
     // Valor para el contexto
     const value = {
         theme,
+        themeMode,
         colors: colors[theme],
         toggleTheme,
         spacing,
@@ -43,6 +47,8 @@ export const ThemeProvider = ({ children, initialTheme }: ThemeProviderProps) =>
         borderRadius,
         shadows: shadows[theme]
     };
+
+    //EL MODO AUTOMATICO TMPOCO FUNCIONA, parece que si solo que quizas por el emulador no fuciona en realidad???
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };

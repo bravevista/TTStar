@@ -63,7 +63,7 @@ export default function FeedbackScreen() {
                 title='Feedback' 
                 iconFamiliy='MaterialCommunityIcons' 
                 iconName='message-bookmark-outline' 
-                showBackButton={true} 
+                showBackButton
             />
 
             <ScrollView contentContainerStyle={[styles.subContainer, { backgroundColor: colors.background }]}>

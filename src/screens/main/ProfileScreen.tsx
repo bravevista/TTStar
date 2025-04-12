@@ -110,7 +110,7 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
                     <InfoButton text='Preguntas frecuentes' iconFamily='MaterialCommunityIcons' iconName='head-question-outline' navigateTo='FAQ' />
                     <InfoButton text='Ayuda' navigateTo='Help' />
                     <InfoButton text='Feedback' iconFamily='MaterialCommunityIcons' iconName='message-bookmark-outline' navigateTo='Feedback' />
-                    <InfoButton text='Políticas de privacidad' iconFamily='MaterialIcons' iconName='privacy-tip' navigateTo='SecurityPolicies' />
+                    <InfoButton text='Política de privacidad' iconFamily='MaterialIcons' iconName='privacy-tip' navigateTo='SecurityPolicies' />
                     <InfoButton text='Términos de uso' iconFamily='Ionicons' iconName='newspaper-outline' navigateTo='TermsOfUse' />
                 </View>
             </View>

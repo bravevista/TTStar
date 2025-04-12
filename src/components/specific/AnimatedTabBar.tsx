@@ -49,7 +49,7 @@ export default function AnimatedTabBar({ state: { index: activeIndex, routes }, 
                 />
             </AnimatedSVG>
 
-            <View style={styles.tabBarContainer}>
+            <View style={[styles.tabBarContainer, { borderTopColor: colors.card }]}>
                 {routes.map((route, index) => {
                     const active = index === activeIndex;
                     const { options } = descriptors[route.key];
@@ -77,5 +77,6 @@ const styles = StyleSheet.create({
     tabBarContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        borderTopWidth: 1,
     },
 });

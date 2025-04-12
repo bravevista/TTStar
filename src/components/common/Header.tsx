@@ -28,7 +28,7 @@ export default function Header({
                 </View>
             )}
             {showThemeButton && (
-                <TouchableOpacity onPress={toggleTheme} style={[
+                <TouchableOpacity onPress={() => toggleTheme()} style={[
                     styles.themeToggle, { backgroundColor: colorCard, ...shadows } 
                 ]}>
                     <Ionicons name={theme === 'dark' ? 'sunny-outline' : 'moon-outline'} size={24} color={primaryColor} />

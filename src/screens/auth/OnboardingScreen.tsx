@@ -8,7 +8,6 @@ import { useTheme } from '../../hooks/useTheme';
 import { NavigationButton } from '../../components/specific/onboarding/NavigationButton';
 import { ScreenProps } from '../../types/navigation';
 import Header from '../../components/common/Header';
-import { useFocusEffect } from '@react-navigation/native';
 
 type typeButton = 'PrevButton' | 'SkipButton' | 'NextButton' | 'DoneButton';
 
@@ -83,7 +82,7 @@ export default function OnboardingScreen({ navigation, route }: ScreenProps<'Onb
                             <View style={styles.toggleTheme}>
                                 <Header 
                                     primaryColor={colors.primary}
-                                    toggleTheme={toggleTheme} 
+                                    toggleTheme={toggleTheme}
                                     colorCard={colors.card} 
                                     shadows={shadows.sm}
                                     theme={theme}
