@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        gap: moderateScale(12),
     },
     animation: {
-        width: scale(4*75),
-        height: verticalScale(3*75),
+        aspectRatio: 4/3,
+        width: scale(300),
     },
 });

@@ -51,7 +51,7 @@ export default function InfoButton({
 
     return (
         <Pressable
-        onPress={handlePress}
+            onPress={handlePress}
             style={({ pressed }) => [{
                 backgroundColor: pressed ? colors.card : colors.background,
             }]}
