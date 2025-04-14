@@ -27,17 +27,8 @@ export default function FAQScreen() {
                 <Text style={[{ color: colors.text, fontSize: typography.fontSizes.xxl, fontWeight: typography.fontWeights.bold }]}>
                     ¿Qué te gustaría saber?
                 </Text>
-                
                 <QuestionsAndAnswers items={faqData} />
-
-                <View style={{ paddingBottom: verticalScale(25) }} />
             </ScrollView>
-
-            <Button
-                title='¿Quiéres hacer una pregunta?'
-                variant='primary'
-                style={styles.button}
-            />
         </View>
     );
 };
@@ -52,16 +43,5 @@ const styles = StyleSheet.create({
         paddingTop: verticalScale(5),
         paddingBottom: verticalScale(20),
         paddingHorizontal: scale(21),
-    },
-    button: {
-        position: 'absolute',
-        bottom: verticalScale(2),
-        width: scale(220),
-        alignSelf: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 6,
-        elevation: 8,
     },
 });

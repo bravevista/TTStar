@@ -1,8 +1,29 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-native';
+// Interfaz para los colores de un tema específico (light o dark)
+export interface ThemeColors {
+  primary: string;         // Color principal
+  secondary: string;       // Color secundario
+  background: string;      // Color de fondo principal
+  background2: string;     // Color de fondo secundario
+  card: string;            // Color para tarjetas y elementos de UI
+  text: string;            // Color de texto principal
+  textSecondary: string;   // Color de texto secundario
+  border: string;          // Color de bordes
+  notification: string;    // Color para notificaciones
+  success: string;         // Color para mensajes de éxito
+  warning: string;         // Color para advertencias
+  error: string;           // Color para errores
+  inactive: string;        // Color para elementos inactivos
+  highlight: string;       // Color para resaltado suave
+  ripple: string;          // Efecto ripple
+};
+
+export interface Colors {
+  light: ThemeColors; // Colores del tema claro
+  dark: ThemeColors;  // Colores del tema oscuro
+};
 
 //Definimos los colores para los temas:
-export const colors = {
+export const colors: Colors = {
     light: {
       primary: '#6B4CE6',         // Violeta labanda principal
       secondary: '#4C6EF5',       // Azul para acentos

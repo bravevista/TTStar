@@ -8,7 +8,7 @@ import PostModal from '../screens/mod/Post.modal';
 import FAQScreen from '../screens/extra/FAQScreen';
 import HelpScreen from '../screens/extra/HelpScreen';
 import FeedbackScreen from '../screens/extra/FeedbackScreen';
-import SecurityPoliciesScreen from '../screens/extra/SecurityPoliciesScreen';
+import PrivacyPolicyScreen from '../screens/extra/PrivacyPolicyScreen';
 import TermsOfUseScreen from '../screens/extra/TermsOfUseScreen';
 import AccessibilityScreen from '../screens/extra/AccessibilityScreen';
 
@@ -67,8 +67,8 @@ export default function MainAppNavigator() {
                 }}
             />
             <Stack.Screen 
-                name="SecurityPolicies"
-                component={SecurityPoliciesScreen}
+                name="PrivacyPolicy"
+                component={PrivacyPolicyScreen}
                 options={{ 
                     animation: 'fade_from_bottom',
                 }}

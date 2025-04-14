@@ -1,6 +1,6 @@
 import { moderateScale } from 'react-native-size-matters';
 
-interface Typography {
+export interface Typography {
     fontSizes: {
         xs: number;
         sm: number;

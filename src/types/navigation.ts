@@ -32,7 +32,7 @@ export type MainStackParamList = {
     FAQ: undefined;
     Help: undefined;
     Feedback: undefined;
-    SecurityPolicies: undefined;
+    PrivacyPolicy: undefined;
     TermsOfUse: undefined;
     PostModal: undefined;
 };
