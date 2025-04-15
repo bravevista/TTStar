@@ -1,19 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Modal, ActivityIndicator, StatusBar, ScrollView, Keyboard, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Modal, ActivityIndicator, StatusBar, ScrollView, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useMutation } from '@tanstack/react-query';
-import { Image } from 'expo-image';
-import { FontAwesome6 } from '@expo/vector-icons';
-import Svg, { Line } from 'react-native-svg';
 import Toast from 'react-native-toast-message';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 import { useTheme } from '../../hooks/useTheme';
 import { AuthModule } from '../../api/repository/auth.repository';
-import VerifiedCheck from '../../assets/svg/VerifiedCheck';
 import InfoButton from '../../components/common/InfoButton';
 import { TabScreenProps, ScreenProps, RootStackParamList } from '../../types/navigation';
+import PresentationProfile from '../../components/specific/PresentationProfile';
 
 export default function ProfileScreen({ navigation, route }: TabScreenProps<'ProfileTab'>) {
     const { colors, typography, theme } = useTheme();
@@ -47,55 +44,17 @@ export default function ProfileScreen({ navigation, route }: TabScreenProps<'Pro
     });
 
     return (
-        <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background2 }]}>
+        <ScrollView 
+            contentContainerStyle={[styles.container, { backgroundColor: colors.background2 }]}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+        >
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
                 backgroundColor={colors.background}
             />
-            <View style={[styles.profile, { backgroundColor: colors.background }]}>
-                <View>
-                    <Image source={'https://img.freepik.com/free-vector/night-ocean-landscape-full-moon-stars-shine_107791-7397.jpg'} style={[styles.image, { borderColor: colors.primary }]} contentFit='cover' />
-                </View>
-                <View style={styles.body}>
-                    <View style={styles.data}>
-                        <View style={styles.name}>
-                            <Text style={[{ color: colors.text, fontSize: typography.fontSizes.lg, fontWeight: typography.fontWeights.bold }]}>Edson Gutierrez</Text>
-                            <VerifiedCheck primaryColor={colors.primary} size={20} />
-                        </View>
-                        <Text style={[{ color: colors.text, fontSize: typography.fontSizes.sm }]}>@edssonmoon</Text>
-                    </View>
-                    <Svg height={2} style={styles.horizontalLine} pointerEvents="none">
-                        <Line
-                            x1="0" y1="0" x2="100%" y2="0"
-                            stroke={colors.text}
-                            strokeWidth="2"
-                        />
-                    </Svg>
-                    <View style={styles.insigniaContainer}>
-                        <View style={styles.insignia}>
-                            <Image source={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/UNMSM_coatofarms_seal.svg/514px-UNMSM_coatofarms_seal.svg.png'} style={styles.icoInsignia} contentFit='contain' />
-                            <Text style={[{ color: colors.textSecondary }]}>UNMSM</Text>
-                        </View>
-                        <View style={styles.insignia}>
-                            <Image source={'https://procsoft.wordpress.com/wp-content/uploads/2019/10/cropped-logo-fisi-3.png?w=240'} style={styles.icoInsignia} contentFit='fill' />
-                            <Text style={[{ color: colors.textSecondary }]}>FISI</Text>
-                        </View>
-                    </View>
-                </View>
 
-                <Svg width={2} style={styles.verticalLine}>
-                    <Line
-                        x1="0" y1="0"
-                        x2="0" y2="100%"
-                        stroke={colors.text}
-                        strokeWidth="2"
-                    />
-                </Svg>
+            <PresentationProfile leftNavigateTo='EditProfile' rightNavigateTo='ProfileUser' />
 
-                <View style={styles.goProfile}>
-                    <FontAwesome6 name='arrow-up-right-from-square' size={moderateScale(21)} color={colors.text} />
-                </View>
-            </View>
-            
             <View style={[styles.optionContainer, { backgroundColor: colors.background }]}>
                 <Text style={[styles.headerOption, { color: colors.text, fontSize: typography.fontSizes.xl }]}>General</Text>
                 <View style={styles.optionWrapped}>
@@ -151,7 +110,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingTop: verticalScale(10),
+        marginTop: verticalScale(10),
         gap: moderateScale(10),
     },
     profile: {

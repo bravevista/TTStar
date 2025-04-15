@@ -41,14 +41,6 @@
           "cameraPermission": "Permitir a la aplicación el acceso a tu cámara.",
           "microphonePermission": "Permite a la aplicación el acceso a tu micrófono."
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./src/assets/fonts/Poppins-Regular.ttf"
-          ]
-        }
       ]
     ],
     "extra": {

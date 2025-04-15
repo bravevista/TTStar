@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { useColorScheme as useDeviceColorScheme } from 'react-native';
+
 import { colors, spacing, typography, borderRadius, shadows } from '../../styles/theme';
 import { ThemeType, ThemeContextType, ThemeMode } from '../../types/theme';
 

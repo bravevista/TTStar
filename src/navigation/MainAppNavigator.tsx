@@ -11,6 +11,8 @@ import FeedbackScreen from '../screens/extra/FeedbackScreen';
 import PrivacyPolicyScreen from '../screens/extra/PrivacyPolicyScreen';
 import TermsOfUseScreen from '../screens/extra/TermsOfUseScreen';
 import AccessibilityScreen from '../screens/extra/AccessibilityScreen';
+import ProfileUserScreen from '../screens/extra/ProfileUserScreen';
+import EditProfileScreen from '../screens/extra/EditProfileScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -28,6 +30,22 @@ export default function MainAppNavigator() {
                 name='MainTabs'
                 component={BottomTabNavigator}
                 options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name='EditProfile'
+                component={EditProfileScreen}
+                options={{
+                    animation: 'fade_from_bottom',
+                }}
+            />
+
+            <Stack.Screen
+                name='ProfileUser'
+                component={ProfileUserScreen}
+                options={{
+                    animation: 'ios_from_right',
+                }}
             />
 
              {/* Pantallas de stack normales */}

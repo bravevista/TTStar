@@ -4,8 +4,7 @@ import { scale, moderateScale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '../../hooks/useTheme';
 import StackHeader from '../../components/common/StackHeader';
 import FileDinamicItem from '../../components/specific/FileDinamicItem';
-import { PolicySection } from '../../data/privacyPolicy.data';
-import { privacyPolicyData } from '../../data/privacyPolicy.data';
+import { PolicySection, privacyPolicyData } from '../../data/privacyPolicy.data';
 
 export default function PrivacyPolicyScreen() {
     const { colors, typography, theme } = useTheme();
@@ -44,11 +43,15 @@ export default function PrivacyPolicyScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
     },
     title: {
+        textAlign: 'left',
+        width: scale(320),
         paddingHorizontal: scale(21),
     },
     subContainer: {
+        width: scale(320),
         textAlign: 'left',
         paddingBottom: verticalScale(20),
         paddingHorizontal: scale(21),

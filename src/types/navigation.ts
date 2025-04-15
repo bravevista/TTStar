@@ -26,7 +26,8 @@ export type RootTabParamList = {
 // Pantallas a las que se puede acceder desde el BottomTab pero no estan en él
 export type MainStackParamList = {
     MainTabs: undefined; // Pantalla que contiene el BottomTabNavigator
-    Profile: {postId: string };
+    ProfileUser: {Uuid: string };
+    EditProfile: {Uuid: string };
     Appearance: undefined;
     Accessibility: undefined;
     FAQ: undefined;
