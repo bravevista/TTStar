@@ -16,67 +16,67 @@ import ProfileScreen from '../screens/main/ProfileScreen';
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function BottomTabNavigator() {
-    const { colors } = useTheme();
+  const { colors } = useTheme();
 
-    return (
-        <Tab.Navigator 
-            tabBar={(props) => <AnimatedTabBar {...props} />} 
-            screenOptions={{
-                tabBarActiveTintColor: colors.primary,
-                tabBarInactiveTintColor: colors.textSecondary,
-                tabBarStyle: {
-                    backgroundColor: colors.card,
-                    borderTopColor: colors.border,
-                },
-                headerShown: false,
-            }}
-        >
-            <Tab.Screen 
-                name="HomeTab" 
-                component={HomeScreen} 
-                options={{
-                    tabBarIcon: ({ color }) => (
-                        <Ionicons name="home" color={color} size={21} />
-                    ),
-                    title: 'Inicio',
-                }}
-            />
-            <Tab.Screen
-                name="SearchTab" 
-                component={SearchScreen} 
-                options={{
-                    tabBarIcon: ({ color }) => (
-                        <Ionicons name="search" color={color} size={21} />
-                    ),
-                }}
-            />
-            <Tab.Screen 
-                name="ExploreTab" 
-                component={ExploreScreen} 
-                options={{
-                    tabBarIcon: ({ color }) => (
-                        <AntDesign name="find" color={color} size={21} />
-                    ),
-                }}
-            />
-            <Tab.Screen 
-                name="ContactsTab" 
-                component={ContactsScreen} 
-                options={{
-                    tabBarIcon: ({ color }) => (
-                        <AntDesign name="message1" color={color} size={21} />
-                    ),
-                }}
-            />
-            <Tab.Screen 
-                name="ProfileTab" 
-                component={ProfileScreen} 
-                options={{
-                    tabBarIcon: ({ color }) => (
-                        <AntDesign name="user" color={color} size={21} />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
-    );
-};
+  return (
+    <Tab.Navigator
+      tabBar={props => <AnimatedTabBar {...props} />}
+      screenOptions={{
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarStyle: {
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
+        },
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" color={color} size={21} />
+          ),
+          title: 'Inicio',
+        }}
+      />
+      <Tab.Screen
+        name="SearchTab"
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="search" color={color} size={21} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ExploreTab"
+        component={ExploreScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="find" color={color} size={21} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ContactsTab"
+        component={ContactsScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="message1" color={color} size={21} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="user" color={color} size={21} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}

@@ -14,27 +14,39 @@ import LoginScreen from '../screens/auth/LoginScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
-    return (
-        <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator 
-                initialRouteName='Onboarding' 
-                screenOptions={{
-                    headerShown: false,
-                    gestureEnabled: false,
-                }}
-            >
-                <Stack.Screen name='Onboarding' component={OnboardingScreen} options={{ animation: 'fade' }} />
-                <Stack.Screen name='Welcome' component={WelcomeScreen} options={{ animation: 'fade_from_bottom' }} />
-                <Stack.Screen name='Login' component={LoginScreen} options={{ animation: 'ios_from_right' }} />
-                <Stack.Screen
-                    name='Main'
-                    component={MainAppNavigator}
-                    options={{
-                        gestureEnabled: false,
-                        headerLeft: () => null,
-                    }}
-                />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
-};
+  return (
+    <NavigationContainer ref={navigationRef}>
+      <Stack.Navigator
+        initialRouteName="Onboarding"
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      >
+        <Stack.Screen
+          name="Onboarding"
+          component={OnboardingScreen}
+          options={{ animation: 'fade' }}
+        />
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ animation: 'fade_from_bottom' }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ animation: 'ios_from_right' }}
+        />
+        <Stack.Screen
+          name="Main"
+          component={MainAppNavigator}
+          options={{
+            gestureEnabled: false,
+            headerLeft: () => null,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
