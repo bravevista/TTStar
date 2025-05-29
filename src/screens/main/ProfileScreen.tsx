@@ -203,15 +203,6 @@ const styles = StyleSheet.create({
     paddingTop: verticalScale(10),
     gap: moderateScale(10),
   },
-  profile: {
-    width: scale(320),
-    height: verticalScale(70),
-    borderRadius: moderateScale(15),
-    paddingHorizontal: scale(5),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
   image: {
     width: moderateScale(50),
     height: moderateScale(50),
@@ -261,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingVertical: verticalScale(8),
     borderRadius: moderateScale(15),
-    width: scale(320),
+    width: scale(340),
   },
   headerOption: {
     paddingVertical: verticalScale(8),

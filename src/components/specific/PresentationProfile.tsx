@@ -136,7 +136,7 @@ export default function PresentationProfile({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: scale(320),
+    width: scale(340),
     height: verticalScale(70),
     borderRadius: moderateScale(15),
     flexDirection: 'row',

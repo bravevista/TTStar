@@ -7,6 +7,7 @@ import {
   Dimensions,
   Pressable,
   Modal,
+  ScrollView,
 } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { HugeiconsIcon } from '@hugeicons/react-native';
@@ -19,15 +20,19 @@ import {
   Navigation04Icon,
   UserAdd01Icon,
 } from '@hugeicons/core-free-icons';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { useUserStore } from '../../contexts/store/useUserStore';
 import { useTheme } from '../../hooks/useTheme';
 import HeaderProfile from '../../components/specific/HeaderProfile';
+import { MainStackParamList } from '../../types/navigation';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function ProfileUserScreen() {
   const { colors, typography } = useTheme();
+  const route = useRoute<RouteProp<MainStackParamList, 'ProfileUser'>>();
+  const { uuid } = route.params;
   const UserMe = useUserStore(state => state.user);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -70,10 +75,16 @@ export default function ProfileUserScreen() {
   }
   const birthdaydate = formatDate(UserMe?.birthdaydate ?? '');
 
+  if (uuid === UserMe?._id) {
+    console.log('ti');
+  } else {
+    console.log('no');
+  }
+
   return (
-    <View style={[styles.container, { backgroundColor: colors.background2 }]}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.background2 }}>
       <HeaderProfile />
-      <View>
+      <View style={{ position: 'relative', height: verticalScale(170) }}>
         {/* Imagen de portada */}
         <Image
           source={UserMe?.coverphoto}
@@ -136,135 +147,132 @@ export default function ProfileUserScreen() {
             </Text>
           </View>
         </Pressable>
-
-        {/* Datos del usuario */}
-        <View
+      </View>
+      {/* Datos del usuario */}
+      <View
+        style={[
+          styles.data,
+          { width: SCREEN_WIDTH, backgroundColor: colors.background },
+        ]}
+      >
+        <Text
           style={[
-            styles.data,
-            { width: SCREEN_WIDTH, backgroundColor: colors.background },
+            styles.name,
+            {
+              color: colors.text,
+              fontSize: typography.fontSizes.xl,
+              fontWeight: typography.fontWeights.bold,
+            },
           ]}
         >
-          <Text
-            style={[
-              styles.name,
-              {
-                color: colors.text,
-                fontSize: typography.fontSizes.xl,
-                fontWeight: typography.fontWeights.bold,
-              },
-            ]}
-          >
-            {UserMe?.name} {UserMe?.lastname}
-          </Text>
+          {UserMe?.name} {UserMe?.lastname}
+        </Text>
 
-          <Text style={{ color: colors.textSecondary }}>
-            @{UserMe?.username}
-          </Text>
+        <Text style={{ color: colors.textSecondary }}>@{UserMe?.username}</Text>
+        <Text
+          style={{
+            color: colors.text,
+            fontWeight: typography.fontWeights.medium,
+          }}
+        >
+          {UserMe?.email}
+        </Text>
+        <Text style={{ color: colors.text }}>
+          {acronymFaculty} - {UserMe?.universitycareer}
+        </Text>
+
+        {/* Íconos de nivel y cumpleaños */}
+        <View style={styles.extraData}>
+          <View style={styles.iconInfo}>
+            <HugeiconsIcon
+              icon={GraduationScrollIcon}
+              size={moderateScale(15)}
+              color={colors.text}
+              strokeWidth={1.5}
+            />
+            <Text style={{ color: colors.text }}>{academicLevel}</Text>
+          </View>
+          <View style={styles.iconInfo}>
+            <HugeiconsIcon
+              icon={BirthdayCakeIcon}
+              size={moderateScale(15)}
+              color={colors.text}
+              strokeWidth={1.5}
+            />
+            <Text style={{ color: colors.text }}>{birthdaydate}</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Seguidores y sobre mí */}
+      <View
+        style={[
+          styles.aboutMe,
+          { width: SCREEN_WIDTH, backgroundColor: colors.background },
+        ]}
+      >
+        <View style={styles.extraData}>
+          <View style={styles.iconInfo}>
+            <HugeiconsIcon
+              icon={AirdropIcon}
+              size={moderateScale(15)}
+              color={colors.text}
+              strokeWidth={1.5}
+            />
+            <Text style={{ color: colors.text }}>XX seguidores</Text>
+          </View>
+          <View style={styles.iconInfo}>
+            <HugeiconsIcon
+              icon={AddTeamIcon}
+              size={moderateScale(15)}
+              color={colors.text}
+              strokeWidth={1.5}
+            />
+            <Text style={{ color: colors.text }}>XX amigos</Text>
+          </View>
+        </View>
+
+        <View style={styles.iconInfo}>
+          <HugeiconsIcon
+            icon={AudioBook04Icon}
+            size={moderateScale(15)}
+            color={colors.textSecondary}
+            strokeWidth={2}
+          />
           <Text
             style={{
-              color: colors.text,
-              fontWeight: typography.fontWeights.medium,
+              color: colors.textSecondary,
+              fontWeight: typography.fontWeights.bold,
             }}
           >
-            {UserMe?.email}
+            Sobre mí:
           </Text>
-          <Text style={{ color: colors.text }}>
-            {acronymFaculty} - {UserMe?.universitycareer}
+        </View>
+        <Text style={{ color: colors.text }}>{UserMe?.bio}</Text>
+      </View>
+
+      {/* Medallero */}
+      <View
+        style={[
+          styles.medalTable,
+          { width: SCREEN_WIDTH, backgroundColor: colors.background },
+        ]}
+      >
+        <View style={styles.iconInfo}>
+          <HugeiconsIcon
+            icon={AudioBook04Icon}
+            size={moderateScale(15)}
+            color={colors.textSecondary}
+            strokeWidth={2}
+          />
+          <Text
+            style={{
+              color: colors.textSecondary,
+              fontWeight: typography.fontWeights.bold,
+            }}
+          >
+            Medallero
           </Text>
-
-          {/* Íconos de nivel y cumpleaños */}
-          <View style={styles.extraData}>
-            <View style={styles.iconInfo}>
-              <HugeiconsIcon
-                icon={GraduationScrollIcon}
-                size={moderateScale(15)}
-                color={colors.text}
-                strokeWidth={1.5}
-              />
-              <Text style={{ color: colors.text }}>{academicLevel}</Text>
-            </View>
-            <View style={styles.iconInfo}>
-              <HugeiconsIcon
-                icon={BirthdayCakeIcon}
-                size={moderateScale(15)}
-                color={colors.text}
-                strokeWidth={1.5}
-              />
-              <Text style={{ color: colors.text }}>{birthdaydate}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Seguidores y sobre mí */}
-        <View
-          style={[
-            styles.aboutMe,
-            { width: SCREEN_WIDTH, backgroundColor: colors.background },
-          ]}
-        >
-          <View style={styles.extraData}>
-            <View style={styles.iconInfo}>
-              <HugeiconsIcon
-                icon={AirdropIcon}
-                size={moderateScale(15)}
-                color={colors.text}
-                strokeWidth={1.5}
-              />
-              <Text style={{ color: colors.text }}>144 seguidores</Text>
-            </View>
-            <View style={styles.iconInfo}>
-              <HugeiconsIcon
-                icon={AddTeamIcon}
-                size={moderateScale(15)}
-                color={colors.text}
-                strokeWidth={1.5}
-              />
-              <Text style={{ color: colors.text }}>144 amigos</Text>
-            </View>
-          </View>
-
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={AudioBook04Icon}
-              size={moderateScale(15)}
-              color={colors.textSecondary}
-              strokeWidth={2}
-            />
-            <Text
-              style={{
-                color: colors.textSecondary,
-                fontWeight: typography.fontWeights.bold,
-              }}
-            >
-              Sobre mí:
-            </Text>
-          </View>
-          <Text style={{ color: colors.text }}>{UserMe?.bio}</Text>
-        </View>
-
-        {/* Medallero */}
-        <View
-          style={[
-            styles.medalTable,
-            { width: SCREEN_WIDTH, backgroundColor: colors.background },
-          ]}
-        >
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={AudioBook04Icon}
-              size={moderateScale(15)}
-              color={colors.textSecondary}
-              strokeWidth={2}
-            />
-            <Text
-              style={{
-                color: colors.textSecondary,
-                fontWeight: typography.fontWeights.bold,
-              }}
-            >
-              Medallero
-            </Text>
-          </View>
         </View>
       </View>
       <Modal
@@ -328,7 +336,7 @@ export default function ProfileUserScreen() {
           </View>
         </View>
       </Modal>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -343,7 +351,7 @@ const styles = StyleSheet.create({
   },
   profilePhotoContainer: {
     position: 'absolute',
-    bottom: moderateScale(277),
+    bottom: -moderateScale(50),
     left: moderateScale(10),
     width: moderateScale(95),
     height: moderateScale(95),
@@ -360,7 +368,7 @@ const styles = StyleSheet.create({
   },
   friendRequest: {
     position: 'absolute',
-    bottom: moderateScale(282),
+    bottom: -moderateScale(40),
     left: moderateScale(260),
     paddingHorizontal: moderateScale(8),
     paddingVertical: moderateScale(8),
@@ -372,7 +380,7 @@ const styles = StyleSheet.create({
   },
   followButton: {
     position: 'absolute',
-    bottom: moderateScale(282),
+    bottom: -moderateScale(40),
     left: moderateScale(300),
     paddingHorizontal: moderateScale(15),
     paddingVertical: moderateScale(8),
