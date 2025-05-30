@@ -10,11 +10,23 @@ export function ProfessorCard({ user, color }: { user: any; color: any }) {
 
   return (
     <View style={styles.userInfo}>
-      <Text style={[styles.name, { color: colors.text }]}>
+      <Text
+        style={[
+          {
+            color: colors.text,
+            fontSize: typography.fontSizes.md,
+            fontWeight: typography.fontWeights.semibold,
+          },
+        ]}
+      >
         {user.name} {user.lastname}
       </Text>
       <View style={styles.typeLabel}>
-        <Text style={[styles.username, { color: colors.textSecondary }]}>
+        <Text
+          style={[
+            { color: colors.textSecondary, fontSize: typography.fontSizes.sm },
+          ]}
+        >
           @{user.username}
         </Text>
         <Text
@@ -46,7 +58,11 @@ export function ProfessorCard({ user, color }: { user: any; color: any }) {
           </Text>
         ) : null}
       </View>
-      <Text numberOfLines={1} ellipsizeMode="tail">
+      <Text
+        style={[{ color: colors.text, fontSize: typography.fontSizes.sm }]}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
         {user.faculty ?? ''}
       </Text>
     </View>
@@ -57,17 +73,10 @@ const styles = StyleSheet.create({
   userInfo: {
     flex: 1,
   },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  username: {
-    fontSize: 14,
-  },
   typeLabel: {
     flexDirection: 'row',
     gap: moderateScale(10),
-    marginTop: 2,
+    marginTop: moderateScale(2),
     alignItems: 'center',
   },
   type: {

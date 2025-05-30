@@ -24,11 +24,23 @@ export function GeneralServicesCard({
 
   return (
     <View style={styles.userInfo}>
-      <Text style={[styles.name, { color: colors.text }]}>
+      <Text
+        style={[
+          {
+            color: colors.text,
+            fontSize: typography.fontSizes.md,
+            fontWeight: typography.fontWeights.semibold,
+          },
+        ]}
+      >
         {user.name} {user.lastname}
       </Text>
       <View style={styles.typeLabel}>
-        <Text style={[styles.username, { color: colors.textSecondary }]}>
+        <Text
+          style={[
+            { color: colors.textSecondary, fontSize: typography.fontSizes.sm },
+          ]}
+        >
           @{user.username}
         </Text>
         <Text
@@ -60,8 +72,8 @@ export function GeneralServicesCard({
           </Text>
         ) : null}
       </View>
-      <Text>
-        {getAcronym(user.university ?? '')} - {user.job}
+      <Text style={[{ color: colors.text, fontSize: typography.fontSizes.sm }]}>
+        {getAcronym(user.university ?? '')} - {user.employer} - {user.job}
       </Text>
     </View>
   );
@@ -70,13 +82,6 @@ export function GeneralServicesCard({
 const styles = StyleSheet.create({
   userInfo: {
     flex: 1,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  username: {
-    fontSize: 14,
   },
   typeLabel: {
     flexDirection: 'row',

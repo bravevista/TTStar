@@ -31,11 +31,7 @@ export default function HeaderProfile() {
         onPress={() => navigation.goBack()}
         style={[styles.button, sharedStyle]}
       >
-        <AntDesign
-          name="left"
-          size={moderateScale(18)}
-          color={colors.primary}
-        />
+        <AntDesign name="left" size={moderateScale(18)} color={colors.text} />
       </TouchableOpacity>
 
       {/* Botones de la derecha */}
@@ -44,14 +40,14 @@ export default function HeaderProfile() {
           <AntDesign
             name="pushpino"
             size={moderateScale(18)}
-            color={colors.primary}
+            color={colors.text}
           />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, sharedStyle]}>
           <AntDesign
             name="ellipsis1"
             size={moderateScale(18)}
-            color={colors.primary}
+            color={colors.text}
           />
         </TouchableOpacity>
       </View>

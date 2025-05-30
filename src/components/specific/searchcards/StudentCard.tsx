@@ -18,11 +18,23 @@ export function StudentCard({ user, color }: { user: any; color: any }) {
 
   return (
     <View style={styles.userInfo}>
-      <Text style={[styles.name, { color: colors.text }]}>
+      <Text
+        style={[
+          {
+            color: colors.text,
+            fontSize: typography.fontSizes.md,
+            fontWeight: typography.fontWeights.semibold,
+          },
+        ]}
+      >
         {user.name} {user.lastname}
       </Text>
       <View style={styles.typeLabel}>
-        <Text style={[styles.username, { color: colors.textSecondary }]}>
+        <Text
+          style={[
+            { color: colors.textSecondary, fontSize: typography.fontSizes.sm },
+          ]}
+        >
           @{user.username}
         </Text>
         <Text
@@ -54,7 +66,7 @@ export function StudentCard({ user, color }: { user: any; color: any }) {
           </Text>
         ) : null}
       </View>
-      <Text>
+      <Text style={[{ color: colors.text, fontSize: typography.fontSizes.sm }]}>
         {getAcronym(user.faculty ?? '')} - {user.universitycareer}
       </Text>
     </View>
@@ -64,13 +76,6 @@ export function StudentCard({ user, color }: { user: any; color: any }) {
 const styles = StyleSheet.create({
   userInfo: {
     flex: 1,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  username: {
-    fontSize: 14,
   },
   typeLabel: {
     flexDirection: 'row',

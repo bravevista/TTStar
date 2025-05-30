@@ -19,24 +19,54 @@ import {
   AddTeamIcon,
   Navigation04Icon,
   UserAdd01Icon,
+  IdIcon,
+  SmartPhone01Icon,
+  BalloonsIcon,
+  Briefcase01Icon,
+  Building03Icon,
+  UserGroup03Icon,
+  MusicNoteSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { useUserStore } from '../../contexts/store/useUserStore';
 import { useTheme } from '../../hooks/useTheme';
 import HeaderProfile from '../../components/specific/HeaderProfile';
 import { MainStackParamList } from '../../types/navigation';
+import { useUserProfile } from '../../hooks/useUserProfile.hook';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
+// Tipos para campos adicionales
+type UserField = {
+  icon: React.ComponentType;
+  value: string | null | undefined;
+  label: string;
+};
+
+const userTypeLabels = {
+  student: 'Estudiante',
+  professor: 'Docente',
+  administrative: 'Administrativo',
+  generalservices: 'Servicios generales',
+} as const;
+
+type UserType = keyof typeof userTypeLabels;
+
 export default function ProfileUserScreen() {
   const { colors, typography } = useTheme();
+  const [modalVisible, setModalVisible] = useState(false);
   const route = useRoute<RouteProp<MainStackParamList, 'ProfileUser'>>();
   const { uuid } = route.params;
-  const UserMe = useUserStore(state => state.user);
-  const [modalVisible, setModalVisible] = useState(false);
 
-  // Obtener siglas de la facultad
+  const { userData, isLoading, isOwnProfile, error } = useUserProfile(uuid);
+
+  const userTypeLabels = {
+    student: 'Estudiante',
+    professor: 'Docente',
+    administrative: 'Administrativo',
+    generalservices: 'Servicios generales',
+  };
+
   function getAcronym(phrase: string): string {
     return phrase
       .split(' ')
@@ -44,13 +74,13 @@ export default function ProfileUserScreen() {
       .map(word => word[0])
       .join('');
   }
-  const acronymFaculty = getAcronym(UserMe?.faculty ?? '');
+  const acronymFaculty = getAcronym(userData?.faculty ?? '');
 
   // Capitalizar primer carácter
   function capitalizeFirst(text: string): string {
     return text ? text[0].toUpperCase() + text.slice(1) : '';
   }
-  const academicLevel = capitalizeFirst(UserMe?.academicdegree ?? '');
+  const academicLevel = capitalizeFirst(userData?.academicdegree ?? '');
 
   // Formatear fecha
   function formatDate(dateInput: Date | string): string {
@@ -73,13 +103,55 @@ export default function ProfileUserScreen() {
     ];
     return `${day} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
   }
-  const birthdaydate = formatDate(UserMe?.birthdaydate ?? '');
+  const birthdaydate = formatDate(userData?.birthdaydate ?? '');
 
-  if (uuid === UserMe?._id) {
-    console.log('ti');
-  } else {
-    console.log('no');
-  }
+  const userFields: UserField[] = [
+    {
+      icon: UserGroup03Icon,
+      value: userData?.organization,
+      label: 'Organización',
+    },
+    {
+      icon: Building03Icon,
+      value: userData?.employer,
+      label: 'Empleador',
+    },
+    {
+      icon: Briefcase01Icon,
+      value: userData?.job,
+      label: 'Trabajo',
+    },
+    {
+      icon: GraduationScrollIcon,
+      value: academicLevel,
+      label: 'Nivel',
+    },
+    {
+      icon: BirthdayCakeIcon,
+      value: birthdaydate,
+      label: 'Nacimiento',
+    },
+    {
+      icon: SmartPhone01Icon,
+      value: userData?.cellphone,
+      label: 'Teléfono',
+    },
+    {
+      icon: IdIcon,
+      value: userData?.code,
+      label: 'Código',
+    },
+    {
+      icon: BalloonsIcon,
+      value: userData?.gender,
+      label: 'Género',
+    },
+    {
+      icon: MusicNoteSquare02Icon,
+      value: userData?.profilemusic,
+      label: 'Música',
+    },
+  ];
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background2 }}>
@@ -87,7 +159,7 @@ export default function ProfileUserScreen() {
       <View style={{ position: 'relative', height: verticalScale(170) }}>
         {/* Imagen de portada */}
         <Image
-          source={UserMe?.coverphoto}
+          source={userData?.coverphoto}
           style={[styles.coverphoto, { width: SCREEN_WIDTH }]}
           contentFit="cover"
         />
@@ -100,54 +172,62 @@ export default function ProfileUserScreen() {
           ]}
         >
           <Image
-            source={UserMe?.profilephoto}
+            source={userData?.profilephoto}
             style={[styles.profilephoto, { borderColor: colors.primary }]}
             contentFit="cover"
           />
         </View>
 
-        {/* Botón flotante sobre la foto */}
-        <Pressable
-          style={[
-            styles.friendRequest,
-            { backgroundColor: colors.background, borderColor: colors.primary },
-          ]}
-          onPress={() => setModalVisible(true)}
-        >
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={UserAdd01Icon}
-              size={moderateScale(15)}
-              color={colors.text}
-              strokeWidth={3}
-            />
-          </View>
-        </Pressable>
+        {/* Botones solo si no es el perfil propio */}
+        {!isOwnProfile && (
+          <>
+            <Pressable
+              style={[
+                styles.friendRequest,
+                {
+                  backgroundColor: colors.background,
+                  borderColor: colors.primary,
+                },
+              ]}
+              onPress={() => setModalVisible(true)}
+            >
+              <View style={styles.iconInfo}>
+                <HugeiconsIcon
+                  icon={UserAdd01Icon}
+                  size={moderateScale(15)}
+                  color={colors.text}
+                  strokeWidth={3}
+                />
+              </View>
+            </Pressable>
 
-        <Pressable
-          style={[styles.followButton, { backgroundColor: colors.primary }]}
-          onPress={() => {
-            /* Acción */
-          }}
-        >
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={Navigation04Icon}
-              size={moderateScale(15)}
-              color="white"
-              strokeWidth={1.5}
-            />
-            <Text
-              style={{
-                color: 'white',
-                fontWeight: typography.fontWeights.bold,
+            <Pressable
+              style={[styles.followButton, { backgroundColor: colors.primary }]}
+              onPress={() => {
+                /* Acción */
               }}
             >
-              Seguir
-            </Text>
-          </View>
-        </Pressable>
+              <View style={styles.iconInfo}>
+                <HugeiconsIcon
+                  icon={Navigation04Icon}
+                  size={moderateScale(15)}
+                  color="white"
+                  strokeWidth={1.5}
+                />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: typography.fontWeights.bold,
+                  }}
+                >
+                  Seguir
+                </Text>
+              </View>
+            </Pressable>
+          </>
+        )}
       </View>
+
       {/* Datos del usuario */}
       <View
         style={[
@@ -165,53 +245,51 @@ export default function ProfileUserScreen() {
             },
           ]}
         >
-          {UserMe?.name} {UserMe?.lastname}
+          {userData?.name} {userData?.lastname}
         </Text>
 
-        <Text style={{ color: colors.textSecondary }}>@{UserMe?.username}</Text>
+        <View style={styles.iconInfo}>
+          <Text style={{ color: colors.textSecondary }}>
+            @{userData?.username}
+          </Text>
+          {userData?.type && (
+            <Text
+              style={[
+                styles.type,
+                {
+                  backgroundColor: colors.primary,
+                  color: 'white',
+                  fontSize: typography.fontSizes.xs,
+                },
+              ]}
+            >
+              {userTypeLabels[userData.type as UserType]}
+            </Text>
+          )}
+        </View>
         <Text
           style={{
             color: colors.text,
             fontWeight: typography.fontWeights.medium,
           }}
         >
-          {UserMe?.email}
+          {userData?.email}
         </Text>
-        <Text style={{ color: colors.text }}>
-          {acronymFaculty} - {UserMe?.universitycareer}
-        </Text>
-
-        {/* Íconos de nivel y cumpleaños */}
-        <View style={styles.extraData}>
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={GraduationScrollIcon}
-              size={moderateScale(15)}
-              color={colors.text}
-              strokeWidth={1.5}
-            />
-            <Text style={{ color: colors.text }}>{academicLevel}</Text>
-          </View>
-          <View style={styles.iconInfo}>
-            <HugeiconsIcon
-              icon={BirthdayCakeIcon}
-              size={moderateScale(15)}
-              color={colors.text}
-              strokeWidth={1.5}
-            />
-            <Text style={{ color: colors.text }}>{birthdaydate}</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Seguidores y sobre mí */}
-      <View
-        style={[
-          styles.aboutMe,
-          { width: SCREEN_WIDTH, backgroundColor: colors.background },
-        ]}
-      >
-        <View style={styles.extraData}>
+        {acronymFaculty && userData?.faculty && (
+          <Text style={{ color: colors.text }}>
+            {userData.faculty} ({acronymFaculty})
+          </Text>
+        )}
+        {acronymFaculty && userData?.universitycareer && (
+          <Text
+            style={[
+              { color: colors.text, fontWeight: typography.fontWeights.bold },
+            ]}
+          >
+            {userData.universitycareer}
+          </Text>
+        )}
+        <View style={[styles.extraData, { paddingTop: 7 }]}>
           <View style={styles.iconInfo}>
             <HugeiconsIcon
               icon={AirdropIcon}
@@ -231,7 +309,66 @@ export default function ProfileUserScreen() {
             <Text style={{ color: colors.text }}>XX amigos</Text>
           </View>
         </View>
+      </View>
 
+      {/* Campos adicionales dinámicos */}
+      {userFields.some(field => field.value) && (
+        <View
+          style={[
+            styles.dynamicFieldsContainer,
+            { width: SCREEN_WIDTH, backgroundColor: colors.background },
+          ]}
+        >
+          {userFields.map(
+            (field, index) =>
+              field.value && (
+                <View
+                  key={index}
+                  style={[
+                    styles.fieldRow,
+                    { backgroundColor: colors.background2 },
+                  ]}
+                >
+                  <View style={styles.iconInfo}>
+                    <HugeiconsIcon
+                      icon={field.icon}
+                      size={moderateScale(15)}
+                      color={colors.textSecondary}
+                      strokeWidth={1.5}
+                    />
+                    <Text
+                      style={{
+                        color: colors.textSecondary,
+                        fontWeight: typography.fontWeights.medium,
+                      }}
+                    >
+                      {field.label}:
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      color: colors.text,
+                      flexShrink: 1,
+                      maxWidth: SCREEN_WIDTH - moderateScale(120), // Evitar desbordamiento
+                    }}
+                    numberOfLines={1}
+                    ellipsizeMode="middle"
+                  >
+                    {field.value}
+                  </Text>
+                </View>
+              )
+          )}
+        </View>
+      )}
+
+      {/* Seguidores y sobre mí */}
+      <View
+        style={[
+          styles.aboutMe,
+          { width: SCREEN_WIDTH, backgroundColor: colors.background },
+        ]}
+      >
         <View style={styles.iconInfo}>
           <HugeiconsIcon
             icon={AudioBook04Icon}
@@ -248,7 +385,7 @@ export default function ProfileUserScreen() {
             Sobre mí:
           </Text>
         </View>
-        <Text style={{ color: colors.text }}>{UserMe?.bio}</Text>
+        <Text style={{ color: colors.text }}>{userData?.bio}</Text>
       </View>
 
       {/* Medallero */}
@@ -275,67 +412,70 @@ export default function ProfileUserScreen() {
           </Text>
         </View>
       </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View
-            style={[
-              styles.modalContent,
-              { backgroundColor: colors.background },
-            ]}
-          >
-            <Text style={[styles.modalText, { color: colors.text }]}>
-              ¿Estás seguro de enviar una solicitud de amistad?
-            </Text>
 
-            <View style={styles.modalButtons}>
-              <Pressable
-                style={[
-                  styles.modalButton,
-                  {
-                    backgroundColor: colors.background,
-                    borderColor: colors.text,
-                  },
-                ]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text
-                  style={{
-                    color: colors.text,
-                    fontSize: typography.fontSizes.md,
-                    fontWeight: typography.fontWeights.bold,
+      {!isOwnProfile && (
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View
+              style={[
+                styles.modalContent,
+                { backgroundColor: colors.background },
+              ]}
+            >
+              <Text style={[styles.modalText, { color: colors.text }]}>
+                ¿Estás seguro de enviar una solicitud de amistad?
+              </Text>
+
+              <View style={styles.modalButtons}>
+                <Pressable
+                  style={[
+                    styles.modalButton,
+                    {
+                      backgroundColor: colors.background,
+                      borderColor: colors.text,
+                    },
+                  ]}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontSize: typography.fontSizes.md,
+                      fontWeight: typography.fontWeights.bold,
+                    }}
+                  >
+                    Cancelar
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[
+                    styles.modalButton,
+                    { backgroundColor: colors.primary },
+                  ]}
+                  onPress={() => {
+                    // Acción para enviar solicitud
+                    setModalVisible(false);
                   }}
                 >
-                  Cancelar
-                </Text>
-              </Pressable>
-              <Pressable
-                style={[
-                  styles.modalButton,
-                  { backgroundColor: colors.primary },
-                ]}
-                onPress={() => {
-                  // Acción para enviar solicitud
-                  setModalVisible(false);
-                }}
-              >
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: typography.fontWeights.bold,
-                  }}
-                >
-                  Enviar
-                </Text>
-              </Pressable>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: typography.fontWeights.bold,
+                    }}
+                  >
+                    Enviar
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </ScrollView>
   );
 }
@@ -398,15 +538,40 @@ const styles = StyleSheet.create({
   name: {
     paddingTop: verticalScale(25),
   },
+  type: {
+    marginLeft: moderateScale(2),
+    borderRadius: moderateScale(15),
+    paddingHorizontal: moderateScale(8),
+    paddingVertical: moderateScale(2),
+  },
   extraData: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: moderateScale(15),
-    marginTop: verticalScale(5),
   },
   iconInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: moderateScale(5),
+  },
+  dynamicFieldsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: scale(15),
+    gap: moderateScale(6),
+    marginBottom: moderateScale(4),
+  },
+  fieldRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: moderateScale(5),
+    borderRadius: moderateScale(8),
+    paddingVertical: moderateScale(6),
+    paddingHorizontal: moderateScale(10),
+    flexShrink: 1,
+    flexGrow: 0,
+    flexBasis: 'auto',
   },
   aboutMe: {
     paddingVertical: verticalScale(15),

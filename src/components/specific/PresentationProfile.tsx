@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { Image } from 'expo-image';
 import { FontAwesome6 } from '@expo/vector-icons';
@@ -8,6 +9,7 @@ import Svg, { Line } from 'react-native-svg';
 import { useTheme } from '../../hooks/useTheme';
 import VerifiedCheck from '../../assets/svg/VerifiedCheck';
 import { useUserStore } from '../../contexts/store/useUserStore';
+import { MainStackParamList } from '../../types/navigation';
 
 export default function PresentationProfile({
   leftNavigateTo,
@@ -15,14 +17,15 @@ export default function PresentationProfile({
 }: any) {
   const { colors, typography } = useTheme();
   const userMe = useUserStore(state => state.user);
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   const handleEdit = () => {
-    navigation.navigate(leftNavigateTo as never);
+    navigation.navigate(leftNavigateTo, { uuid: userMe?._id });
   };
 
   const handleProfile = () => {
-    navigation.navigate(rightNavigateTo as never);
+    navigation.navigate(rightNavigateTo, { uuid: userMe?._id });
   };
 
   return (
