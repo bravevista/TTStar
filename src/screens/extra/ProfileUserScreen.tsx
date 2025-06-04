@@ -33,6 +33,9 @@ import { useTheme } from '../../hooks/useTheme';
 import HeaderProfile from '../../components/specific/HeaderProfile';
 import { MainStackParamList } from '../../types/navigation';
 import { useUserProfile } from '../../hooks/useUserProfile.hook';
+import Toast from 'react-native-toast-message';
+import { FollowButton } from '../../components/specific/FollowButton';
+import { Loading } from '../../components/common/Loading';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -58,7 +61,8 @@ export default function ProfileUserScreen() {
   const route = useRoute<RouteProp<MainStackParamList, 'ProfileUser'>>();
   const { uuid } = route.params;
 
-  const { userData, isLoading, isOwnProfile, error } = useUserProfile(uuid);
+  const { userData, isFollowing, socialStats, isLoading, isOwnProfile, error } =
+    useUserProfile(uuid);
 
   const userTypeLabels = {
     student: 'Estudiante',
@@ -153,6 +157,10 @@ export default function ProfileUserScreen() {
     },
   ];
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background2 }}>
       <HeaderProfile />
@@ -200,30 +208,10 @@ export default function ProfileUserScreen() {
                 />
               </View>
             </Pressable>
-
-            <Pressable
-              style={[styles.followButton, { backgroundColor: colors.primary }]}
-              onPress={() => {
-                /* Acción */
-              }}
-            >
-              <View style={styles.iconInfo}>
-                <HugeiconsIcon
-                  icon={Navigation04Icon}
-                  size={moderateScale(15)}
-                  color="white"
-                  strokeWidth={1.5}
-                />
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: typography.fontWeights.bold,
-                  }}
-                >
-                  Seguir
-                </Text>
-              </View>
-            </Pressable>
+            <FollowButton
+              followedUuid={uuid}
+              initiallyFollowing={isFollowing}
+            />
           </>
         )}
       </View>
@@ -297,7 +285,9 @@ export default function ProfileUserScreen() {
               color={colors.text}
               strokeWidth={1.5}
             />
-            <Text style={{ color: colors.text }}>XX seguidores</Text>
+            <Text style={{ color: colors.text }}>
+              {socialStats.numberOfFollowers} seguidores
+            </Text>
           </View>
           <View style={styles.iconInfo}>
             <HugeiconsIcon
@@ -306,7 +296,9 @@ export default function ProfileUserScreen() {
               color={colors.text}
               strokeWidth={1.5}
             />
-            <Text style={{ color: colors.text }}>XX amigos</Text>
+            <Text style={{ color: colors.text }}>
+              {socialStats.numberOfFriends} amigos
+            </Text>
           </View>
         </View>
       </View>
@@ -362,7 +354,7 @@ export default function ProfileUserScreen() {
         </View>
       )}
 
-      {/* Seguidores y sobre mí */}
+      {/* Sobre mí */}
       <View
         style={[
           styles.aboutMe,
@@ -476,6 +468,7 @@ export default function ProfileUserScreen() {
           </View>
         </Modal>
       )}
+      <Toast />
     </ScrollView>
   );
 }
@@ -517,17 +510,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 16,
-  },
-  followButton: {
-    position: 'absolute',
-    bottom: -moderateScale(40),
-    left: moderateScale(300),
-    paddingHorizontal: moderateScale(15),
-    paddingVertical: moderateScale(8),
-    borderRadius: moderateScale(12),
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 15,
   },
   data: {
     paddingHorizontal: scale(18),
