@@ -1,3 +1,0 @@
-interface IsFollowing {
-  isFollowing: boolean;
-};

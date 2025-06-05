@@ -56,7 +56,7 @@ export function FollowButton({
         styles.followButton,
         {
           backgroundColor: isFollowing ? colors.background : colors.primary,
-          borderColor: isFollowing ? colors.primary : 'white',
+          borderColor: colors.primary,
         },
       ]}
       disabled={isPending}

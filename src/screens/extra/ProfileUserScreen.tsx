@@ -36,6 +36,7 @@ import { useUserProfile } from '../../hooks/useUserProfile.hook';
 import Toast from 'react-native-toast-message';
 import { FollowButton } from '../../components/specific/FollowButton';
 import { Loading } from '../../components/common/Loading';
+import { AddFriendButton } from '../../components/specific/AddFriendButton';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -61,8 +62,14 @@ export default function ProfileUserScreen() {
   const route = useRoute<RouteProp<MainStackParamList, 'ProfileUser'>>();
   const { uuid } = route.params;
 
-  const { userData, isFollowing, socialStats, isLoading, isOwnProfile, error } =
-    useUserProfile(uuid);
+  const {
+    userData,
+    isOwnProfile,
+    relationship,
+    socialStats,
+    isLoading,
+    error,
+  } = useUserProfile(uuid);
 
   const userTypeLabels = {
     student: 'Estudiante',
@@ -189,28 +196,10 @@ export default function ProfileUserScreen() {
         {/* Botones solo si no es el perfil propio */}
         {!isOwnProfile && (
           <>
-            <Pressable
-              style={[
-                styles.friendRequest,
-                {
-                  backgroundColor: colors.background,
-                  borderColor: colors.primary,
-                },
-              ]}
-              onPress={() => setModalVisible(true)}
-            >
-              <View style={styles.iconInfo}>
-                <HugeiconsIcon
-                  icon={UserAdd01Icon}
-                  size={moderateScale(15)}
-                  color={colors.text}
-                  strokeWidth={3}
-                />
-              </View>
-            </Pressable>
+            <AddFriendButton userUuid={uuid} relationship={relationship} />
             <FollowButton
               followedUuid={uuid}
-              initiallyFollowing={isFollowing}
+              initiallyFollowing={relationship.isFollowing}
             />
           </>
         )}
@@ -502,7 +491,7 @@ const styles = StyleSheet.create({
   friendRequest: {
     position: 'absolute',
     bottom: -moderateScale(40),
-    left: moderateScale(260),
+    left: moderateScale(220),
     paddingHorizontal: moderateScale(8),
     paddingVertical: moderateScale(8),
     borderRadius: moderateScale(10),

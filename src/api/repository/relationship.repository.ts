@@ -48,9 +48,9 @@ export const RelationshipModule = {
       };
     };
   },
-  getUserRelationship: async (uuid: string): Promise<IsFollowing> => {
+  getUserRelationship: async (uuid: string): Promise<AreRelated> => {
     try {
-      const response = await api.request<IsFollowing>({
+      const response = await api.request<AreRelated>({
         method: 'GET',
         url: `/relationship/know/${uuid}`
       });
@@ -77,6 +77,78 @@ export const RelationshipModule = {
         url: `/relationship/statistics/social/${uuid}`
       });
       return response.data;
+    } catch (error: any) {
+      console.error('Full Error Object:', error);
+
+      if (error.response) {
+        console.error('Response Error:', error.response.data);
+        throw new Error(error.response.data.message || 'Error del servidor');
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+        throw new Error('El servidor no responde');
+      } else {
+        console.error('Network Error:', error.message);
+        throw new Error('Error de conexión');
+      };
+    };
+  },
+  sendFriendRequest: async (receiverUuid: string): Promise<Message> => {
+    try {
+      const response = await api.request<Message>({
+        method: 'POST',
+        url: `/relationship/friend/request`,
+        data: { receiverUuid }
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('Full Error Object:', error);
+
+      if (error.response) {
+        console.error('Response Error:', error.response.data);
+        throw new Error(error.response.data.message || 'Error del servidor');
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+        throw new Error('El servidor no responde');
+      } else {
+        console.error('Network Error:', error.message);
+        throw new Error('Error de conexión');
+      };
+    };
+  },
+  cancelFriendRequest: async (receiverUuid: string): Promise<Message> => {
+    try {
+      const response = await api.request<Message>({
+        method: 'POST',
+        url: `/relationship/friend/request/remove`,
+        data: { receiverUuid }
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('Full Error Object:', error);
+
+      if (error.response) {
+        console.error('Response Error:', error.response.data);
+        throw new Error(error.response.data.message || 'Error del servidor');
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+        throw new Error('El servidor no responde');
+      } else {
+        console.error('Network Error:', error.message);
+        throw new Error('Error de conexión');
+      };
+    };
+  },
+  responseFriendRequest: async (senderUuid: string, response: string): Promise<Message> => {
+    try {
+      const responsef = await api.request<Message>({
+        method: 'POST',
+        url: `/relationship/friend/request/response`,
+        data: {
+          senderUuid,
+          response, //Solo "Accepted" o "Rejected"
+        }
+      });
+      return responsef.data;
     } catch (error: any) {
       console.error('Full Error Object:', error);
 

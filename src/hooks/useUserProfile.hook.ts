@@ -17,7 +17,7 @@ export function useUserProfile(uuid: string) {
 
   // Pedir estado de follow y estadísticas sociales (siempre que haya uuid)
   const relationshipQuery = useQuery<{
-    isFollowing: boolean;
+    relationship: AreRelated;
     socialStats: SocialStatistics;
   }>({
     queryKey: ['user-relationship', uuid],
@@ -28,8 +28,8 @@ export function useUserProfile(uuid: string) {
       ]);
 
       return {
-        isFollowing: relationship.isFollowing,
-        socialStats
+        relationship,
+        socialStats,
       };
     },
     enabled: !!uuid,
@@ -37,13 +37,19 @@ export function useUserProfile(uuid: string) {
 
   return {
     userData: isOwnProfile ? userMe : userDataQuery.data,
-    isFollowing: relationshipQuery.data?.isFollowing ?? false,
+    isOwnProfile,
+    relationship: relationshipQuery.data?.relationship ?? {
+      isSelf: isOwnProfile,
+      isFriend: false,
+      isFollowing: false,
+      hasSentRequest: false,
+      hasReceivedRequest: false,
+    },
     socialStats: relationshipQuery.data?.socialStats ?? {
       numberOfFollowers: 0,
       numberOfFriends: 0
     },
-    isLoading: (isOwnProfile ? false : userDataQuery.isLoading) || relationshipQuery.isLoading,
-    isOwnProfile,
+    isLoading: (!isOwnProfile && userDataQuery.isLoading) || relationshipQuery.isLoading,
     error: userDataQuery.error || relationshipQuery.error
   };
 }
