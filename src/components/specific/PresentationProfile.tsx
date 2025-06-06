@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -10,6 +10,8 @@ import { useTheme } from '../../hooks/useTheme';
 import VerifiedCheck from '../../assets/svg/VerifiedCheck';
 import { useUserStore } from '../../contexts/store/useUserStore';
 import { MainStackParamList } from '../../types/navigation';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function PresentationProfile({
   leftNavigateTo,
@@ -29,7 +31,12 @@ export default function PresentationProfile({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+      ]}
+    >
       <Pressable
         onPress={handleEdit}
         style={({ pressed }) => [
@@ -139,9 +146,7 @@ export default function PresentationProfile({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: scale(340),
     height: verticalScale(70),
-    borderRadius: moderateScale(15),
     flexDirection: 'row',
   },
   LIContainer: {

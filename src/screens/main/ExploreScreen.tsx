@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, StatusBar } from 'react-native';
 
 import { TabScreenProps } from '../../types/navigation';
 import { useTheme } from '../../hooks/useTheme';
+import MainHeader from '../../components/common/MainHeader';
 
 export default function ExploreScreen({
   navigation,
@@ -16,6 +17,7 @@ export default function ExploreScreen({
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
+      <MainHeader />
       <Text>Explore</Text>
     </View>
   );
@@ -25,6 +27,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
 });

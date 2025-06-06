@@ -8,6 +8,7 @@ import {
   StatusBar,
   ScrollView,
   Pressable,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -24,14 +25,15 @@ import {
   RootStackParamList,
 } from '../../types/navigation';
 import PresentationProfile from '../../components/specific/PresentationProfile';
-import { useUserStore } from '../../contexts/store/useUserStore';
+import MainHeader from '../../components/common/MainHeader';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function ProfileScreen({
   navigation,
   route,
 }: TabScreenProps<'ProfileTab'>) {
   const { colors, typography, theme } = useTheme();
-  const userMe = useUserStore(state => state.user);
   const navigationTwo =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -66,7 +68,7 @@ export default function ProfileScreen({
     <ScrollView
       contentContainerStyle={[
         styles.container,
-        { backgroundColor: colors.background2 },
+        { backgroundColor: colors.background2, width: SCREEN_WIDTH },
       ]}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
@@ -76,13 +78,18 @@ export default function ProfileScreen({
         backgroundColor={colors.background}
       />
 
+      <MainHeader />
+
       <PresentationProfile
         leftNavigateTo="EditProfile"
         rightNavigateTo="ProfileUser"
       />
 
       <View
-        style={[styles.optionContainer, { backgroundColor: colors.background }]}
+        style={[
+          styles.optionContainer,
+          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+        ]}
       >
         <Text
           style={[
@@ -109,7 +116,10 @@ export default function ProfileScreen({
       </View>
 
       <View
-        style={[styles.optionContainer, { backgroundColor: colors.background }]}
+        style={[
+          styles.optionContainer,
+          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+        ]}
       >
         <Text
           style={[
@@ -149,7 +159,10 @@ export default function ProfileScreen({
       </View>
 
       <View
-        style={[styles.optionContainer, { backgroundColor: colors.background }]}
+        style={[
+          styles.optionContainer,
+          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+        ]}
       >
         <Text
           style={[
@@ -200,8 +213,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: verticalScale(10),
-    gap: moderateScale(10),
   },
   image: {
     width: moderateScale(50),
@@ -251,8 +262,6 @@ const styles = StyleSheet.create({
   optionContainer: {
     flexDirection: 'column',
     paddingVertical: verticalScale(8),
-    borderRadius: moderateScale(15),
-    width: scale(340),
   },
   headerOption: {
     paddingVertical: verticalScale(8),

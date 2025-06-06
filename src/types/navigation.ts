@@ -14,6 +14,12 @@ export type RootStackParamList = {
   // Aquí añades pantallas que necesitan navegacion directa
 };
 
+export type RootTopTabParamList = {
+  contactos: undefined;
+  mensajes: undefined;
+  solicitudes: undefined;
+};
+
 // Pantallas vinculadas al BottonNavigation
 export type RootTabParamList = {
   HomeTab: undefined;

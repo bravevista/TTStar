@@ -20,10 +20,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useSearchUsers } from '../../hooks/useSearchUsers.hook';
 import { useTheme } from '../../hooks/useTheme';
 import { useUserStore } from '../../contexts/store/useUserStore';
-import { StudentCard } from '../../components/specific/searchcards/StudentCard';
-import { ProfessorCard } from '../../components/specific/searchcards/ProfessorCard';
-import { AdministrativeCard } from '../../components/specific/searchcards/AdministrativeCard';
-import { GeneralServicesCard } from '../../components/specific/searchcards/GeneralServicesCard';
 import { MainStackParamList, TabScreenProps } from '../../types/navigation';
 import SearchCard from '../../components/specific/SearchCard';
 
@@ -65,7 +61,6 @@ export default function SearchScreen({
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
-
       <View
         style={[
           styles.header,
@@ -113,7 +108,6 @@ export default function SearchScreen({
             styles.input,
             {
               color: colors.text,
-              borderColor: colors.border,
               backgroundColor: colors.background,
             },
           ]}
