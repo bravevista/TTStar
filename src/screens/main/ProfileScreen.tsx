@@ -65,147 +65,148 @@ export default function ProfileScreen({
   });
 
   return (
-    <ScrollView
-      contentContainerStyle={[
-        styles.container,
-        { backgroundColor: colors.background2, width: SCREEN_WIDTH },
-      ]}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <StatusBar
-        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
-        backgroundColor={colors.background}
-      />
-
+    <View style={{ flex: 1, backgroundColor: colors.background2 }}>
       <MainHeader />
 
-      <PresentationProfile
-        leftNavigateTo="EditProfile"
-        rightNavigateTo="ProfileUser"
-      />
-
-      <View
-        style={[
-          styles.optionContainer,
-          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+      <ScrollView
+        contentContainerStyle={[
+          styles.container,
+          { backgroundColor: colors.background2, width: SCREEN_WIDTH },
         ]}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
-        <Text
+        <StatusBar
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+          backgroundColor={colors.background}
+        />
+
+        <PresentationProfile
+          leftNavigateTo="EditProfile"
+          rightNavigateTo="ProfileUser"
+        />
+
+        <View
           style={[
-            styles.headerOption,
-            { color: colors.text, fontSize: typography.fontSizes.xl },
+            styles.optionContainer,
+            { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
           ]}
         >
-          General
-        </Text>
-        <View style={styles.optionWrapped}>
-          <InfoButton
-            text="Apariencia"
-            iconFamily="Octicons"
-            iconName="paintbrush"
-            navigateTo="Appearance"
-          />
-          <InfoButton
-            text="Accesibilidad"
-            iconFamily="Octicons"
-            iconName="accessibility"
-            navigateTo="Accessibility"
-          />
-        </View>
-      </View>
-
-      <View
-        style={[
-          styles.optionContainer,
-          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
-        ]}
-      >
-        <Text
-          style={[
-            styles.headerOption,
-            { color: colors.text, fontSize: typography.fontSizes.xl },
-          ]}
-        >
-          Ayuda
-        </Text>
-        <View style={styles.optionWrapped}>
-          <InfoButton
-            text="Preguntas frecuentes"
-            iconFamily="MaterialCommunityIcons"
-            iconName="head-question-outline"
-            navigateTo="FAQ"
-          />
-          <InfoButton text="Ayuda" navigateTo="Help" />
-          <InfoButton
-            text="Feedback"
-            iconFamily="MaterialCommunityIcons"
-            iconName="message-bookmark-outline"
-            navigateTo="Feedback"
-          />
-          <InfoButton
-            text="Política de privacidad"
-            iconFamily="MaterialIcons"
-            iconName="privacy-tip"
-            navigateTo="PrivacyPolicy"
-          />
-          <InfoButton
-            text="Términos de uso"
-            iconFamily="Ionicons"
-            iconName="newspaper-outline"
-            navigateTo="TermsOfUse"
-          />
-        </View>
-      </View>
-
-      <View
-        style={[
-          styles.optionContainer,
-          { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
-        ]}
-      >
-        <Text
-          style={[
-            styles.headerOption,
-            { color: colors.text, fontSize: typography.fontSizes.xl },
-          ]}
-        >
-          Sesión
-        </Text>
-        <View style={styles.optionWrapped}>
-          <InfoButton
-            text="Cerrar sesión"
-            iconFamily="Entypo"
-            iconName="log-out"
-            textColor={colors.error}
-            onPress={mutate}
-          />
-        </View>
-      </View>
-
-      <Text style={[styles.version, { color: colors.textSecondary }]}>
-        Versión: 0.1.1 Alfa cerrada
-      </Text>
-
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={isPending}
-        onRequestClose={() => {}}
-      >
-        <View style={styles.modalBackground}>
-          <View
-            style={[styles.modalContainer, { backgroundColor: colors.card }]}
+          <Text
+            style={[
+              styles.headerOption,
+              { color: colors.text, fontSize: typography.fontSizes.xl },
+            ]}
           >
-            <ActivityIndicator size="large" color={colors.primary} />
-            <Text style={[styles.loadingText, { color: colors.text }]}>
-              Cerrando sesión...
-            </Text>
+            General
+          </Text>
+          <View style={styles.optionWrapped}>
+            <InfoButton
+              text="Apariencia"
+              iconFamily="Octicons"
+              iconName="paintbrush"
+              navigateTo="Appearance"
+            />
+            <InfoButton
+              text="Accesibilidad"
+              iconFamily="Octicons"
+              iconName="accessibility"
+              navigateTo="Accessibility"
+            />
           </View>
         </View>
-      </Modal>
-      <Toast />
-    </ScrollView>
+
+        <View
+          style={[
+            styles.optionContainer,
+            { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+          ]}
+        >
+          <Text
+            style={[
+              styles.headerOption,
+              { color: colors.text, fontSize: typography.fontSizes.xl },
+            ]}
+          >
+            Ayuda
+          </Text>
+          <View style={styles.optionWrapped}>
+            <InfoButton
+              text="Preguntas frecuentes"
+              iconFamily="MaterialCommunityIcons"
+              iconName="head-question-outline"
+              navigateTo="FAQ"
+            />
+            <InfoButton text="Ayuda" navigateTo="Help" />
+            <InfoButton
+              text="Feedback"
+              iconFamily="MaterialCommunityIcons"
+              iconName="message-bookmark-outline"
+              navigateTo="Feedback"
+            />
+            <InfoButton
+              text="Política de privacidad"
+              iconFamily="MaterialIcons"
+              iconName="privacy-tip"
+              navigateTo="PrivacyPolicy"
+            />
+            <InfoButton
+              text="Términos de uso"
+              iconFamily="Ionicons"
+              iconName="newspaper-outline"
+              navigateTo="TermsOfUse"
+            />
+          </View>
+        </View>
+
+        <View
+          style={[
+            styles.optionContainer,
+            { backgroundColor: colors.background, width: SCREEN_WIDTH * 0.98 },
+          ]}
+        >
+          <Text
+            style={[
+              styles.headerOption,
+              { color: colors.text, fontSize: typography.fontSizes.xl },
+            ]}
+          >
+            Sesión
+          </Text>
+          <View style={styles.optionWrapped}>
+            <InfoButton
+              text="Cerrar sesión"
+              iconFamily="Entypo"
+              iconName="log-out"
+              textColor={colors.error}
+              onPress={mutate}
+            />
+          </View>
+        </View>
+
+        <Text style={[styles.version, { color: colors.textSecondary }]}>
+          Versión: 0.1.1 Alfa cerrada
+        </Text>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={isPending}
+          onRequestClose={() => {}}
+        >
+          <View style={styles.modalBackground}>
+            <View
+              style={[styles.modalContainer, { backgroundColor: colors.card }]}
+            >
+              <ActivityIndicator size="large" color={colors.primary} />
+              <Text style={[styles.loadingText, { color: colors.text }]}>
+                Cerrando sesión...
+              </Text>
+            </View>
+          </View>
+        </Modal>
+        <Toast />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -293,6 +294,7 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
   },
   version: {
+    paddingTop: verticalScale(10),
     paddingBottom: verticalScale(20),
   },
 });

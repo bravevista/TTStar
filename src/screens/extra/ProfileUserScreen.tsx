@@ -37,6 +37,8 @@ import Toast from 'react-native-toast-message';
 import { FollowButton } from '../../components/specific/FollowButton';
 import { Loading } from '../../components/common/Loading';
 import { AddFriendButton } from '../../components/specific/AddFriendButton';
+import { getAcronym } from '../../utils/GetAcronimun.utils';
+import { UserType, userTypeLabels } from '../../utils/TransformTypeUser.utils';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -46,15 +48,6 @@ type UserField = {
   value: string | null | undefined;
   label: string;
 };
-
-const userTypeLabels = {
-  student: 'Estudiante',
-  professor: 'Docente',
-  administrative: 'Administrativo',
-  generalservices: 'Servicios generales',
-} as const;
-
-type UserType = keyof typeof userTypeLabels;
 
 export default function ProfileUserScreen() {
   const { colors, typography } = useTheme();
@@ -71,20 +64,6 @@ export default function ProfileUserScreen() {
     error,
   } = useUserProfile(uuid);
 
-  const userTypeLabels = {
-    student: 'Estudiante',
-    professor: 'Docente',
-    administrative: 'Administrativo',
-    generalservices: 'Servicios generales',
-  };
-
-  function getAcronym(phrase: string): string {
-    return phrase
-      .split(' ')
-      .filter(word => word[0] === word[0]?.toUpperCase())
-      .map(word => word[0])
-      .join('');
-  }
   const acronymFaculty = getAcronym(userData?.faculty ?? '');
 
   // Capitalizar primer carácter

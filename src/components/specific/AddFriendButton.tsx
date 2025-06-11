@@ -73,7 +73,6 @@ export function AddFriendButton({
       : 'white';
 
   // Mutaciones
-
   const { mutate: sendRequest, isPending: isSending } = useMutation({
     mutationFn: async () =>
       await RelationshipModule.sendFriendRequest(userUuid),
@@ -148,11 +147,12 @@ export function AddFriendButton({
   return (
     <>
       <Pressable
-        style={[
+        style={({ pressed }) => [
           styles.button,
           {
             backgroundColor,
             borderColor: colors.primary,
+            opacity: pressed ? 0.7 : 1,
           },
         ]}
         onPress={() => {
@@ -200,11 +200,12 @@ export function AddFriendButton({
             </Text>
             <View style={styles.modalButtons}>
               <Pressable
-                style={[
+                style={({ pressed }) => [
                   styles.modalButton,
                   {
                     backgroundColor: colors.background,
                     borderColor: colors.text,
+                    opacity: pressed ? 0.7 : 1,
                   },
                 ]}
                 onPress={() => setModalVisible(false)}
@@ -220,15 +221,16 @@ export function AddFriendButton({
                 </Text>
               </Pressable>
               <Pressable
-                style={[
+                style={({ pressed }) => [
                   styles.modalButton,
                   {
                     backgroundColor:
                       buttonState === 'add' ? colors.primary : colors.error,
+                    opacity: pressed ? 0.7 : 1,
                   },
                 ]}
                 onPress={() =>
-                  buttonState === 'add' ? sendRequest : () => cancelRequest()
+                  buttonState === 'add' ? sendRequest() : cancelRequest()
                 }
               >
                 <Text

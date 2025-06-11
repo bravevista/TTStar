@@ -23,9 +23,11 @@ export default function MainAppNavigator() {
       screenOptions={{
         headerShown: false,
         presentation: 'card', //Hay mas tipos como modal
+        contentStyle: {
+          backgroundColor: 'red',
+        },
       }}
     >
-      {/* BottomTab Navigator como pantalla principal */}
       <Stack.Screen
         name="MainTabs"
         component={BottomTabNavigator}
