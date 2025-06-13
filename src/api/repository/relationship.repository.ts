@@ -1,6 +1,8 @@
 import { api } from "../../config/Axios";
 import { GetFriendRequestsParams } from "../interface/request/getFriendRequestsParams.request";
+import { Params } from "../interface/request/params.request";
 import { FriendRequestsResponse } from "../interface/response/friendRequests.response";
+import { FriendsListResponse } from "../interface/response/friendsList.response";
 import { Message } from "../interface/response/message.response";
 
 export const RelationshipModule = {
@@ -179,6 +181,36 @@ export const RelationshipModule = {
       const response = await api.request<FriendRequestsResponse>({
         method: 'GET',
         url: `/relationship/friend/requests${query.toString() ? `?${query}` : ''}`,
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('Full Error Object:', error);
+
+      if (error.response) {
+        console.error('Response Error:', error.response.data);
+        throw new Error(error.response.data.message || 'Error del servidor');
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+        throw new Error('El servidor no responde');
+      } else {
+        console.error('Network Error:', error.message);
+        throw new Error('Error de conexión');
+      };
+    };
+  },
+  getFriendsList: async (params?: Params): Promise<FriendsListResponse> => {
+    const query = new URLSearchParams();
+    if (params?.limit !== undefined) {
+      query.append('limit', params.limit.toString());
+    };
+    if (params?.cursor) {
+      query.append('cursor', params.cursor);
+    };
+
+    try {
+      const response = await api.request<FriendsListResponse>({
+        method: 'GET',
+        url: `/relationship/friends/record${query.toString() ? `?${query}` : ''}`,
       });
       return response.data;
     } catch (error: any) {

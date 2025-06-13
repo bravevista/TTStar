@@ -1,17 +1,50 @@
-import { View, Text, StyleSheet, Pressable, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { useUserStore } from '../../contexts/store/useUserStore';
 import { useTheme } from '../../hooks/useTheme';
 import { getAcronym } from '../../utils/GetAcronimun.utils';
+import { UserType, userTypeLabels } from '../../utils/TransformTypeUser.utils';
+import { MainStackParamList } from '../../types/navigation';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-export default function FriendRequest() {
+interface FriendProps {
+  uuid: string;
+  type?: string;
+  profilephoto?: string;
+  name?: string;
+  lastname?: string;
+  username?: string;
+  faculty?: string;
+  universitycareer?: string;
+}
+
+export default function Friend({
+  uuid,
+  type,
+  profilephoto,
+  name,
+  lastname,
+  username,
+  faculty,
+  universitycareer,
+}: FriendProps) {
   const { colors, typography } = useTheme();
-  const user = useUserStore(state => state.user);
-  const facultyAcronym = getAcronym(user?.faculty ?? '');
+  const queryClient = useQueryClient();
+  const facultyAcronym = getAcronym(faculty ?? '');
+
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<MainStackParamList, 'ProfileUser'>
+    >();
+
+  const handleProfile = () => {
+    navigation.navigate('ProfileUser', { uuid: uuid });
+  };
 
   return (
     <View
@@ -26,17 +59,21 @@ export default function FriendRequest() {
     >
       <View style={styles.content}>
         <Image
-          source={user?.profilephoto}
+          source={profilephoto}
           style={[styles.image, { borderColor: colors.primary }]}
           contentFit="cover"
         />
         <View>
           <Text
+            numberOfLines={1}
+            lineBreakMode="tail"
             style={[{ color: colors.text, fontSize: typography.fontSizes.md }]}
           >
-            {user?.name} {user?.lastname}
+            {name} {lastname}
           </Text>
           <Text
+            numberOfLines={1}
+            lineBreakMode="tail"
             style={[
               {
                 color: colors.textSecondary,
@@ -44,12 +81,14 @@ export default function FriendRequest() {
               },
             ]}
           >
-            @{user?.username}
+            @{username} - {userTypeLabels[type as UserType]}
           </Text>
           <Text
+            numberOfLines={1}
+            lineBreakMode="tail"
             style={[{ color: colors.text, fontSize: typography.fontSizes.sm }]}
           >
-            {facultyAcronym} - {user?.universitycareer}
+            {facultyAcronym} - {universitycareer}
           </Text>
         </View>
       </View>
@@ -60,8 +99,8 @@ export default function FriendRequest() {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingHorizontal: scale(20),
-    paddingVertical: verticalScale(15),
+    paddingHorizontal: scale(18),
+    paddingVertical: verticalScale(8),
     gap: moderateScale(15),
     borderTopWidth: 1,
     borderBottomWidth: 1,

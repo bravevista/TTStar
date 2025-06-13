@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   Text,
@@ -7,11 +7,11 @@ import {
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { useTheme } from '../../hooks/useTheme';
 import FriendRequest from '../../components/specific/FriendRequest';
 import { verticalScale } from 'react-native-size-matters';
-import { useUserStore } from '../../contexts/store/useUserStore';
 import { useGetFriendRequests } from '../../hooks/useGetFriendRequests.hook';
 
 interface Props {
@@ -20,8 +20,9 @@ interface Props {
 
 export default function FriendRequestsScreen({ query }: Props) {
   const { colors } = useTheme();
-  const user = useUserStore(state => state.user);
+  const queryClient = useQueryClient();
 
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const {
     data,
     fetchNextPage,
@@ -29,18 +30,22 @@ export default function FriendRequestsScreen({ query }: Props) {
     isFetchingNextPage,
     isLoading,
     isError,
+    refetch,
   } = useGetFriendRequests({});
 
   // Flatten all friend requests
   const friendRequests = data?.pages.flatMap(page => page.data) ?? [];
 
-  if (isLoading) {
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await queryClient.resetQueries({ queryKey: ['friend-requests'] });
+    setIsRefreshing(false);
+  };
+
+  if (isLoading && !isRefreshing) {
     return (
       <View
-        style={[
-          styles.loaderContainer,
-          { backgroundColor: colors.background2 },
-        ]}
+        style={[styles.loaderContainer, { backgroundColor: colors.background }]}
       >
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
@@ -50,10 +55,7 @@ export default function FriendRequestsScreen({ query }: Props) {
   if (isError) {
     return (
       <View
-        style={[
-          styles.loaderContainer,
-          { backgroundColor: colors.background2 },
-        ]}
+        style={[styles.loaderContainer, { backgroundColor: colors.background }]}
       >
         <Text style={{ color: colors.text }}>
           Ocurrió un error al cargar las solicitudes
@@ -67,7 +69,7 @@ export default function FriendRequestsScreen({ query }: Props) {
       <FlatList
         contentContainerStyle={[
           styles.container,
-          { backgroundColor: colors.background2 },
+          { backgroundColor: colors.background },
         ]}
         data={friendRequests}
         keyExtractor={item => item.uuid.toString()}
@@ -89,6 +91,8 @@ export default function FriendRequestsScreen({ query }: Props) {
           }
         }}
         onEndReachedThreshold={0.2}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
         ListFooterComponent={
           isFetchingNextPage ? (
             <ActivityIndicator size="small" color={colors.primary} />
