@@ -45,9 +45,8 @@ export default function ContactsScreen({
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
-      {/* Header + Buscador */}
+      <MainHeader />
       <View style={styles.topSection}>
-        <MainHeader />
         <View
           style={[
             styles.searchInput,

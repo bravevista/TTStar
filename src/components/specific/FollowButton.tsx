@@ -13,11 +13,13 @@ import { useTheme } from '../../hooks/useTheme';
 type FollowButtonProps = {
   followedUuid: string;
   initiallyFollowing?: boolean;
+  standalone?: boolean;
 };
 
 export function FollowButton({
   followedUuid,
   initiallyFollowing = false,
+  standalone = false,
 }: FollowButtonProps) {
   const { colors, typography } = useTheme();
   const queryClient = useQueryClient();
@@ -54,6 +56,7 @@ export function FollowButton({
     <Pressable
       style={[
         styles.followButton,
+        !standalone && styles.absolutePosition,
         {
           backgroundColor: isFollowing ? colors.background : colors.primary,
           borderColor: colors.primary,
@@ -104,9 +107,6 @@ export function FollowButton({
 
 const styles = StyleSheet.create({
   followButton: {
-    position: 'absolute',
-    bottom: -moderateScale(40),
-    left: moderateScale(300),
     paddingHorizontal: moderateScale(15),
     paddingVertical: moderateScale(8),
     borderRadius: moderateScale(12),
@@ -114,6 +114,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     zIndex: 15,
+  },
+  absolutePosition: {
+    position: 'absolute',
+    bottom: -moderateScale(40),
+    left: moderateScale(300),
   },
   iconInfo: {
     flexDirection: 'row',

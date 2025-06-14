@@ -143,7 +143,7 @@ export default function SearchScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   header: {
     paddingTop: verticalScale(15),

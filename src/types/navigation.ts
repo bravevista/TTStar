@@ -42,6 +42,7 @@ export type MainStackParamList = {
   PrivacyPolicy: undefined;
   TermsOfUse: undefined;
   PostModal: undefined;
+  ShareExperiences: undefined;
 };
 
 // Props para los componentes de pantalla

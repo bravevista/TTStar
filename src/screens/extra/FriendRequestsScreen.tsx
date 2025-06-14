@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     gap: verticalScale(5),
+    alignItems: 'center',
   },
   loaderContainer: {
     flex: 1,

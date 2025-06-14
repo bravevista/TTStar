@@ -13,6 +13,7 @@ import TermsOfUseScreen from '../screens/extra/TermsOfUseScreen';
 import AccessibilityScreen from '../screens/extra/AccessibilityScreen';
 import ProfileUserScreen from '../screens/extra/ProfileUserScreen';
 import EditProfileScreen from '../screens/extra/EditProfileScreen';
+import ShareExperiencesScreen from '../screens/extra/ShareExperiencesScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -23,9 +24,6 @@ export default function MainAppNavigator() {
       screenOptions={{
         headerShown: false,
         presentation: 'card', //Hay mas tipos como modal
-        contentStyle: {
-          backgroundColor: 'red',
-        },
       }}
     >
       <Stack.Screen
@@ -34,6 +32,13 @@ export default function MainAppNavigator() {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="ShareExperiences"
+        component={ShareExperiencesScreen}
+        options={{
+          animation: 'fade_from_bottom',
+        }}
+      />
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
