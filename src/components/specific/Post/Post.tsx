@@ -11,15 +11,15 @@ import {
   Settings03Icon,
 } from '@hugeicons/core-free-icons';
 
-import { useTheme } from '../../hooks/useTheme';
-import UserCard from './UserCard';
+import { useTheme } from '../../../hooks/useTheme';
+import UserCard from '../../common/UserCard';
 import PostContent from './PostContent';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const MAX_IMAGE_HEIGHT = 500;
 
 interface PostProps {
-  image: string;
+  image?: string;
   content: string;
   date: string;
   user: {
@@ -47,12 +47,14 @@ export default function Post({ image, content, date, user }: PostProps) {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Image
-        style={[styles.image, { width: SCREEN_WIDTH, height: imageHeight }]}
-        source={image}
-        contentFit="cover"
-        onLoad={handleImageLoad}
-      />
+      {image && (
+        <Image
+          style={[styles.image, { width: SCREEN_WIDTH, height: imageHeight }]}
+          source={image}
+          contentFit="cover"
+          onLoad={handleImageLoad}
+        />
+      )}
       <View style={styles.content}>
         <UserCard
           type={user.type!}
@@ -64,7 +66,7 @@ export default function Post({ image, content, date, user }: PostProps) {
           showdate
           date={date}
         />
-        <PostContent text={content} />
+        {content && <PostContent text={content} />}
         <View
           style={[
             styles.divider,
@@ -85,7 +87,11 @@ export default function Post({ image, content, date, user }: PostProps) {
               color={colors.text}
               strokeWidth={1.2}
             />
-            <Text>Apoyar</Text>
+            <Text
+              style={{ color: colors.text, fontSize: typography.fontSizes.sm }}
+            >
+              Apoyar
+            </Text>
           </View>
           <View style={styles.socialOption}>
             <HugeiconsIcon
@@ -95,7 +101,11 @@ export default function Post({ image, content, date, user }: PostProps) {
               color={colors.text}
               strokeWidth={1.2}
             />
-            <Text>Comentar</Text>
+            <Text
+              style={{ color: colors.text, fontSize: typography.fontSizes.sm }}
+            >
+              Comentar
+            </Text>
           </View>
           <View style={styles.socialOption}>
             <HugeiconsIcon
@@ -105,7 +115,11 @@ export default function Post({ image, content, date, user }: PostProps) {
               color={colors.text}
               strokeWidth={1.2}
             />
-            <Text>Impulsar</Text>
+            <Text
+              style={{ color: colors.text, fontSize: typography.fontSizes.sm }}
+            >
+              Impulsar
+            </Text>
             {/* Una alternativa retewt o compartir con opcion de citar */}
           </View>
         </View>

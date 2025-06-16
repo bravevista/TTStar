@@ -14,7 +14,7 @@ import { TestRepository } from '../../api/repository/test';
 import { User } from '../../api/interface/userTest';
 import { useTheme } from '../../hooks/useTheme';
 import MainHeader from '../../components/common/MainHeader';
-import Post from '../../components/common/Post';
+import Post from '../../components/specific/Post/Post';
 import { useUserStore } from '../../contexts/store/useUserStore';
 
 export default function HomeScreen({
@@ -41,10 +41,13 @@ export default function HomeScreen({
     return <Text>Error: {error.message}</Text>;
   }
 
-  const content = `Hola **amigos** 😄
+  const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Hola **amigos** 😄
 Les comparto esta novedad:
-**Gran evento** el próximo jueves 🎉
-Nos vemos ahí.`;
+**Gran evento** el próximo jueves 🎉 Nos vemos ahí.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+hola
+tralalerlor tralalala`;
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background2 }]}>
