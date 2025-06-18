@@ -58,6 +58,7 @@ export default function PreviewPostModal({
                   style={[
                     styles.title,
                     {
+                      color: colors.text,
                       fontWeight: typography.fontWeights.bold,
                       fontSize: typography.fontSizes.lg,
                     },

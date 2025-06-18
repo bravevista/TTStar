@@ -62,12 +62,20 @@ tralalerlor tralalala`;
         showsHorizontalScrollIndicator={false}
       >
         {user && (
-          <Post
-            image={user.profilephoto}
-            content={content}
-            date="27 Dic 2025"
-            user={user}
-          />
+          <>
+            <Post
+              image={user.profilephoto}
+              content={content}
+              date="27 Dic 2025"
+              user={user}
+            />
+            <Post
+              image={user.coverphoto}
+              content={'content'}
+              date="27 Dic 2025"
+              user={user}
+            />
+          </>
         )}
       </ScrollView>
     </View>

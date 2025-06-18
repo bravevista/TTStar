@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PostEditor from '../../components/specific/Post/PostEditor';
 import StackHeader from '../../components/common/StackHeader';
+import { Button } from '../../components/common/Button';
+import { moderateScale } from 'react-native-size-matters';
 
 export default function ShareExperiencesScreen() {
   const [postText, setPostText] = useState('');
