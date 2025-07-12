@@ -41,6 +41,7 @@ export type MainStackParamList = {
   Feedback: undefined;
   PrivacyPolicy: undefined;
   TermsOfUse: undefined;
+  PostDetail: { uuid: string };
   PostModal: undefined;
   ShareExperiences: undefined;
 };

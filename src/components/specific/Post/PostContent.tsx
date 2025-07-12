@@ -17,6 +17,11 @@ function FormattedText({
   showMoreButton: boolean;
 }) {
   const { colors, typography } = useTheme();
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpand = useCallback(() => {
+    setExpanded(prev => !prev);
+  }, []);
 
   // Aplica formato de negrita con **texto** y maneja emojis
   const formatText = useCallback(
@@ -100,9 +105,11 @@ function FormattedText({
           </Text>
         ))}
         {showMoreButton && (
-          <Text style={{ color: colors.primary }} onPress={onPressMore}>
-            Ver menos
-          </Text>
+          <Pressable onPress={toggleExpand}>
+            <Text style={{ color: colors.primary }} onPress={onPressMore}>
+              Ver menos
+            </Text>
+          </Pressable>
         )}
       </>
     );
@@ -137,9 +144,11 @@ function FormattedText({
         </Text>
       ))}
       {showMoreButton && (
-        <Text style={{ color: colors.primary }} onPress={onPressMore}>
-          Ver más
-        </Text>
+        <Pressable onPress={toggleExpand}>
+          <Text style={{ color: colors.primary }} onPress={onPressMore}>
+            Ver más
+          </Text>
+        </Pressable>
       )}
     </>
   );
@@ -165,14 +174,12 @@ export default function PostContent({ text }: { text: string }) {
 
   return (
     <View style={styles.textContainer}>
-      <Pressable onPress={toggleExpand}>
-        <FormattedText
-          text={text}
-          isExpanded={expanded}
-          onPressMore={toggleExpand}
-          showMoreButton={hasMoreContent()}
-        />
-      </Pressable>
+      <FormattedText
+        text={text}
+        isExpanded={expanded}
+        onPressMore={toggleExpand}
+        showMoreButton={hasMoreContent()}
+      />
     </View>
   );
 }

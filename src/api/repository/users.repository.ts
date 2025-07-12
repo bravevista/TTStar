@@ -11,7 +11,6 @@ export const UsersModule = {
       return response.data;
     } catch (error: any) {
       console.error('Full Error Object:', error);
-
       if (error.response) {
         console.error('Response Error:', error.response.data);
         throw new Error(error.response.data.message || 'Error del servidor');
@@ -33,7 +32,6 @@ export const UsersModule = {
       return response.data;
     } catch (error: any) {
       console.error('Full Error Object:', error);
-
       if (error.response) {
         console.error('Response Error:', error.response.data);
         throw new Error(error.response.data.message || 'Error del servidor');

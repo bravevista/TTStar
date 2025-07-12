@@ -7,13 +7,16 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { queryClient } from './src/config/ReactQuery';
 import './src/api/interceptors';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <AppNavigator />
+          <GestureHandlerRootView>
+            <AppNavigator />
+          </GestureHandlerRootView>
         </QueryClientProvider>
       </ThemeProvider>
     </SafeAreaProvider>

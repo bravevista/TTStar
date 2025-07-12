@@ -28,17 +28,18 @@ import {
   MusicNoteSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import { useTheme } from '../../hooks/useTheme';
 import HeaderProfile from '../../components/specific/HeaderProfile';
 import { MainStackParamList } from '../../types/navigation';
 import { useUserProfile } from '../../hooks/useUserProfile.hook';
-import Toast from 'react-native-toast-message';
 import { FollowButton } from '../../components/specific/FollowButton';
 import { Loading } from '../../components/common/Loading';
 import { AddFriendButton } from '../../components/specific/AddFriendButton';
 import { getAcronym } from '../../utils/GetAcronimun.utils';
 import { UserType, userTypeLabels } from '../../utils/TransformTypeUser.utils';
+import { formatDate } from '../../utils/FormatDate.utils';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -71,28 +72,6 @@ export default function ProfileUserScreen() {
     return text ? text[0].toUpperCase() + text.slice(1) : '';
   }
   const academicLevel = capitalizeFirst(userData?.academicdegree ?? '');
-
-  // Formatear fecha
-  function formatDate(dateInput: Date | string): string {
-    const date = new Date(dateInput);
-    if (isNaN(date.getTime())) return '';
-    const day = date.getDate();
-    const monthNames = [
-      'Ene',
-      'Feb',
-      'Mar',
-      'Abr',
-      'May',
-      'Jun',
-      'Jul',
-      'Ago',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dic',
-    ];
-    return `${day} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-  }
   const birthdaydate = formatDate(userData?.birthdaydate ?? '');
 
   const userFields: UserField[] = [

@@ -64,14 +64,9 @@ tralalerlor tralalala`;
         {user && (
           <>
             <Post
+              _id="4b033d32-3df8-46e3-862f-62e0cd23de49"
               image={user.profilephoto}
               content={content}
-              date="27 Dic 2025"
-              user={user}
-            />
-            <Post
-              image={user.coverphoto}
-              content={'content'}
               date="27 Dic 2025"
               user={user}
             />
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   view: {
-    gap: moderateScale(4),
+    gap: moderateScale(10),
     paddingBottom: moderateScale(10),
   },
 });

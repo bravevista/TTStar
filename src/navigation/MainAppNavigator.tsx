@@ -14,6 +14,7 @@ import AccessibilityScreen from '../screens/extra/AccessibilityScreen';
 import ProfileUserScreen from '../screens/extra/ProfileUserScreen';
 import EditProfileScreen from '../screens/extra/EditProfileScreen';
 import ShareExperiencesScreen from '../screens/extra/ShareExperiencesScreen';
+import PostDetailScreen from '../screens/extra/PostDetailScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -52,6 +53,14 @@ export default function MainAppNavigator() {
         component={ProfileUserScreen}
         options={{
           animation: 'ios_from_right',
+        }}
+      />
+
+      <Stack.Screen
+        name="PostDetail"
+        component={PostDetailScreen}
+        options={{
+          animation: 'fade_from_bottom',
         }}
       />
 
