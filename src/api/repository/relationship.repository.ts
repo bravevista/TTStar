@@ -1,6 +1,6 @@
 import { api } from "../../config/Axios";
 import { GetFriendRequestsParams } from "../interface/request/getFriendRequestsParams.request";
-import { Params } from "../interface/request/params.request";
+import { Params } from "../interface/request/endlessParams.request";
 import { FriendRequestsResponse } from "../interface/response/friendRequests.response";
 import { FriendsListResponse } from "../interface/response/friendsList.response";
 import { Message } from "../interface/response/message.response";

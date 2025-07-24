@@ -1,53 +1,83 @@
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  ScrollView,
+  FlatList,
   StatusBar,
   StyleSheet,
   Text,
   View,
+  RefreshControl,
 } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { moderateScale } from 'react-native-size-matters';
+import Animated, { FadeIn, FadeInUp, FadeOut } from 'react-native-reanimated';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { TabScreenProps } from '../../types/navigation';
-import { TestRepository } from '../../api/repository/test';
-import { User } from '../../api/interface/userTest';
-import { useTheme } from '../../hooks/useTheme';
 import MainHeader from '../../components/common/MainHeader';
 import Post from '../../components/specific/Post/Post';
+import { TabScreenProps } from '../../types/navigation';
+import { useTheme } from '../../hooks/useTheme';
 import { useUserStore } from '../../contexts/store/useUserStore';
+import { Loading } from '../../components/common/Loading';
+import { useAnnaFeed } from '../../hooks/useAnnaFeed.hook';
+import { formatDate } from '../../utils/FormatDate.utils';
+import { AnnaModule } from '../../api/repository/anna.repository';
+import TopRefreshIndicator from '../../components/common/TopRefreshIndicator';
 
 export default function HomeScreen({
   navigation,
   route,
 }: TabScreenProps<'HomeTab'>) {
-  const { colors, theme } = useTheme();
-  const user = useUserStore(state => state.user);
+  const { colors, typography, theme } = useTheme();
+  const queryClient = useQueryClient();
+  const { user } = useUserStore();
 
+  useEffect(() => {
+    AnnaModule.cleanSession({ typesession: 'feed' });
+  }, []);
+
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const {
-    data: users,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    error,
-  } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: TestRepository.getUsers,
-  });
+    isError,
+    refetch,
+  } = useAnnaFeed({});
 
-  if (isLoading) {
-    return <ActivityIndicator size="large" color={colors.primary} />;
+  const posts = data?.pages.flatMap(page => page.data) || [];
+  const renderItem = ({ item }: any) => (
+    <Animated.View
+      entering={FadeInUp.springify().damping(20)}
+      exiting={FadeOut}
+    >
+      <Post
+        _id={item.uuid}
+        image={item.images?.[0]}
+        content={item.content}
+        date={formatDate(item.created_at)}
+        useruuid={[item.creators?.[0] ?? '']}
+      />
+    </Animated.View>
+  );
+
+  const onRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await AnnaModule.cleanSession({ typesession: 'feed' });
+      await refetch();
+    } catch (error) {
+      console.error('Error refreshing feed:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  if (isLoading && !isRefreshing) {
+    return <Loading />;
   }
-
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
-  }
-
-  const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Hola **amigos** 😄
-Les comparto esta novedad:
-**Gran evento** el próximo jueves 🎉 Nos vemos ahí.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-hola
-tralalerlor tralalala`;
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background2 }]}>
@@ -56,23 +86,63 @@ tralalerlor tralalala`;
         backgroundColor={colors.background}
       />
       <MainHeader />
-      <ScrollView
-        contentContainerStyle={styles.view}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {user && (
-          <>
-            <Post
-              _id="4b033d32-3df8-46e3-862f-62e0cd23de49"
-              image={user.profilephoto}
-              content={content}
-              date="27 Dic 2025"
-              user={user}
-            />
-          </>
+      <FlatList
+        data={posts}
+        keyExtractor={item => item.uuid.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={[styles.view, { flexGrow: 1 }]}
+        ItemSeparatorComponent={() => (
+          <View style={{ height: moderateScale(10) }} />
         )}
-      </ScrollView>
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
+        onEndReachedThreshold={0.5}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+            tintColor={colors.primary}
+          />
+        }
+        ListFooterComponent={
+          isFetchingNextPage ? (
+            <ActivityIndicator size="small" color={colors.primary} />
+          ) : null
+        }
+        ListEmptyComponent={
+          <Animated.View
+            entering={FadeIn.duration(300)}
+            exiting={FadeOut.duration(200)}
+            style={styles.emptyContainer}
+          >
+            <Text
+              style={[
+                styles.emptyText,
+                {
+                  color: colors.text,
+                  fontWeight: typography.fontWeights.regular,
+                  fontSize: typography.fontSizes.lg,
+                },
+              ]}
+            >
+              {isError
+                ? 'Ocurrió un error al cargar el feed.'
+                : 'No hay publicaciones por el momento.'}
+            </Text>
+            <TouchableOpacity
+              style={[styles.reloadButton, { backgroundColor: colors.primary }]}
+              onPress={onRefresh}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.reloadText}>Recargar</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        }
+      />
     </View>
   );
 }
@@ -84,7 +154,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   view: {
-    gap: moderateScale(10),
     paddingBottom: moderateScale(10),
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: moderateScale(20),
+  },
+  emptyText: {
+    fontSize: moderateScale(14),
+    textAlign: 'center',
+    marginBottom: moderateScale(10),
+  },
+  reloadButton: {
+    paddingVertical: moderateScale(8),
+    paddingHorizontal: moderateScale(20),
+    borderRadius: moderateScale(8),
+  },
+  reloadText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: moderateScale(13),
   },
 });

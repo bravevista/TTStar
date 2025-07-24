@@ -8,29 +8,27 @@ import { UserType, userTypeLabels } from '../../utils/TransformTypeUser.utils';
 import { useTheme } from '../../hooks/useTheme';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { Calendar02Icon } from '@hugeicons/core-free-icons';
+import { useUserCard } from '../../hooks/useUserCard.hook';
+import { Loading } from './Loading';
 
 interface UserCardProps {
-  type: string;
   uuid: string;
-  name: string;
-  lastname: string;
-  profilephoto: string;
-  username: string;
   showdate: boolean;
   date?: string;
 }
 
 export default function UserCard({
-  type,
   uuid,
-  name,
-  lastname,
-  profilephoto,
-  username,
   showdate = false,
   date,
 }: UserCardProps) {
   const { colors, typography } = useTheme();
+  const { userData, relationship, isOwnProfile, isLoading, error } =
+    useUserCard(uuid);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <View style={styles.container}>
@@ -42,7 +40,7 @@ export default function UserCard({
               borderColor: colors.primary,
             },
           ]}
-          source={profilephoto}
+          source={userData?.profilephoto}
           contentFit="cover"
         />
         <View>
@@ -53,7 +51,7 @@ export default function UserCard({
               fontWeight: typography.fontWeights.semibold,
             }}
           >
-            {name} {lastname}
+            {userData?.name} {userData?.lastname}
           </Text>
           <Text
             style={{
@@ -62,7 +60,7 @@ export default function UserCard({
               fontWeight: typography.fontWeights.medium,
             }}
           >
-            @{username} - {userTypeLabels[type as UserType]}
+            @{userData?.username} - {userTypeLabels[userData?.type as UserType]}
           </Text>
           {showdate && (
             <View style={styles.date}>
@@ -87,8 +85,8 @@ export default function UserCard({
       </View>
       <FollowButton
         followedUuid={uuid}
-        initiallyFollowing={true}
-        standalone={true}
+        initiallyFollowing={isOwnProfile || relationship.isFollowing}
+        standalone
       />
     </View>
   );

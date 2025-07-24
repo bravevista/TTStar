@@ -26,19 +26,19 @@ interface PostProps {
   image?: string;
   content: string;
   date: string;
-  user: {
-    type: string;
-    _id: string;
-    name: string;
-    lastname: string;
-    profilephoto: string;
-    username: string;
-  };
+  useruuid: string[];
 }
 
-export default function Post({ _id, image, content, date, user }: PostProps) {
+export default function Post({
+  _id,
+  image,
+  content,
+  date,
+  useruuid,
+}: PostProps) {
   const { colors, typography } = useTheme();
   const [imageHeight, setImageHeight] = useState<number>(MAX_IMAGE_HEIGHT);
+  const [userUuid] = useruuid;
   const navigation =
     useNavigation<
       NativeStackNavigationProp<MainStackParamList, 'ProfileUser'>
@@ -58,7 +58,7 @@ export default function Post({ _id, image, content, date, user }: PostProps) {
   };
 
   const handleProfile = () => {
-    navigation.navigate('ProfileUser', { uuid: user._id });
+    navigation.navigate('ProfileUser', { uuid: userUuid });
   };
   const handleView = () => {
     navigationTwo.navigate('PostDetail', { uuid: _id });
@@ -95,16 +95,7 @@ export default function Post({ _id, image, content, date, user }: PostProps) {
             },
           ]}
         >
-          <UserCard
-            type={user.type!}
-            uuid={user._id!}
-            name={user.name!}
-            lastname={user.lastname!}
-            profilephoto={user.profilephoto!}
-            username={user.username!}
-            showdate
-            date={date}
-          />
+          <UserCard uuid={userUuid!} showdate date={date} />
         </Pressable>
         {content && (
           <Pressable

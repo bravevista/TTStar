@@ -26,6 +26,7 @@ import {
 } from '../../types/navigation';
 import PresentationProfile from '../../components/specific/PresentationProfile';
 import MainHeader from '../../components/common/MainHeader';
+import { AnnaModule } from '../../api/repository/anna.repository';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -39,7 +40,7 @@ export default function ProfileScreen({
 
   const { data, mutate, isPending, error } = useMutation({
     mutationFn: AuthModule.signOut,
-    onSuccess: data => {
+    onSuccess: async data => {
       Toast.show({
         type: 'success',
         text1: '¡Sesión cerrada!',

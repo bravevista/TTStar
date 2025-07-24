@@ -154,7 +154,13 @@ function FormattedText({
   );
 }
 
-export default function PostContent({ text }: { text: string }) {
+export default function PostContent({
+  text,
+  variant = false,
+}: {
+  text: string;
+  variant?: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpand = useCallback(() => {
@@ -173,7 +179,7 @@ export default function PostContent({ text }: { text: string }) {
   }, [text]);
 
   return (
-    <View style={styles.textContainer}>
+    <View style={variant ? styles.textContainerVariant : styles.textContainer}>
       <FormattedText
         text={text}
         isExpanded={expanded}
@@ -188,5 +194,9 @@ const styles = StyleSheet.create({
   textContainer: {
     paddingHorizontal: moderateScale(15),
     paddingVertical: moderateScale(10),
+  },
+  textContainerVariant: {
+    paddingVertical: moderateScale(10),
+    paddingHorizontal: moderateScale(7),
   },
 });

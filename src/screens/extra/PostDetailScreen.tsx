@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import {
   Comment02Icon,
   AutoConversationsIcon,
   BookmarkAdd02Icon,
+  ViewIcon,
 } from '@hugeicons/core-free-icons';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -22,6 +23,8 @@ import { Loading } from '../../components/common/Loading';
 import UserCard from '../../components/common/UserCard';
 import { formatDate } from '../../utils/FormatDate.utils';
 import PostContent from '../../components/specific/Post/PostContent';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import InteractionPostButton from '../../components/specific/InteractionPostButton';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -29,11 +32,13 @@ export default function PostDetailScreen() {
   const { colors, typography } = useTheme();
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [sheetIndex, setSheetIndex] = useState(0);
   const route = useRoute<RouteProp<MainStackParamList, 'PostDetail'>>();
   const { uuid: postUuid } = route.params;
 
+  const snapPoints = useMemo(() => ['50%', '85%'], []);
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handle', index);
+    setSheetIndex(index);
   }, []);
 
   const { postData, isLoading, error } = useGetPostDetails(postUuid);
@@ -47,110 +52,109 @@ export default function PostDetailScreen() {
     <View
       style={[
         styles.container,
-        { backgroundColor: colors.background, width: SCREEN_WIDTH },
+        { backgroundColor: 'black', width: SCREEN_WIDTH },
       ]}
     >
-      <View style={[styles.header, { width: SCREEN_WIDTH }]}>
-        <View style={styles.profile}>
-          <Image
-            source={postData?.user.profilephoto}
-            style={[styles.profilephoto, { borderColor: colors.primary }]}
-            contentFit="cover"
-          />
-          <View style={[styles.capsuleText, { backgroundColor: colors.card }]}>
-            <Text
-              style={[
-                {
-                  color: colors.text,
-                  fontWeight: typography.fontWeights.semibold,
-                  fontSize: typography.fontSizes.sm,
-                },
-              ]}
+      <ImageViewer
+        imageUrls={[
+          {
+            url: postData?.image ?? ' ',
+          },
+          {
+            url: 'https://wallpapers.com/images/hd/super-villain-cell-dragon-ball-z-iphone-cbmk6bd8nckhr0cc.jpg',
+          },
+        ]}
+        backgroundColor={'#000'}
+        enableSwipeDown={false}
+        enableImageZoom={true}
+        renderHeader={() => (
+          <View style={[styles.header, { width: SCREEN_WIDTH }]}>
+            <View style={styles.profile}>
+              <Image
+                source={postData?.user.profilephoto}
+                style={[styles.profilephoto, { borderColor: colors.primary }]}
+                contentFit="cover"
+              />
+              <View
+                style={[styles.capsuleText, { backgroundColor: colors.card }]}
+              >
+                <Text
+                  style={[
+                    {
+                      color: colors.text,
+                      fontWeight: typography.fontWeights.semibold,
+                      fontSize: typography.fontSizes.sm,
+                    },
+                  ]}
+                >
+                  @{postData?.user.username}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[styles.capsuleIcon, { backgroundColor: colors.card }]}
             >
-              @{postData?.user.username}
-            </Text>
+              <HugeiconsIcon
+                key="More"
+                icon={MoreHorizontalCircle01Icon}
+                size={moderateScale(21)}
+                color={colors.text}
+                strokeWidth={1.2}
+              />
+            </View>
           </View>
-        </View>
-        <View style={[styles.capsuleIcon, { backgroundColor: colors.card }]}>
-          <HugeiconsIcon
-            key="More"
-            icon={MoreHorizontalCircle01Icon}
-            size={moderateScale(21)}
-            color={colors.text}
-            strokeWidth={1.2}
-          />
-        </View>
-      </View>
-
-      <Image
-        source={postData?.image}
-        style={styles.images}
-        contentFit="cover"
-      />
-
-      <View style={styles.stats}>
-        <View style={[styles.capsuleText, { backgroundColor: colors.card }]}>
-          <Text
+        )}
+        renderFooter={() => (
+          <View
             style={{
-              color: colors.text,
-              fontWeight: typography.fontWeights.bold,
-              fontSize: typography.fontSizes.lg,
+              width: SCREEN_WIDTH,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
-            {postData?.stats.views}{' '}
-            <Text
-              style={{
-                fontWeight: typography.fontWeights.light,
-                fontSize: typography.fontSizes.md,
-              }}
-            >
-              Vistas
-            </Text>
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.interactions}>
-        <View style={[styles.capsuleIcon, { backgroundColor: colors.card }]}>
-          <HugeiconsIcon
-            key="Like"
-            icon={StarIcon}
-            size={moderateScale(21)}
-            color={colors.text}
-            strokeWidth={1.2}
-          />
-        </View>
-        <View style={[styles.capsuleIcon, { backgroundColor: colors.card }]}>
-          <HugeiconsIcon
-            key="Comentar"
-            icon={Comment02Icon}
-            size={moderateScale(21)}
-            color={colors.text}
-            strokeWidth={1.2}
-          />
-        </View>
-        <View style={[styles.capsuleIcon, { backgroundColor: colors.card }]}>
-          <HugeiconsIcon
-            key="Potenciar"
-            icon={AutoConversationsIcon}
-            size={moderateScale(21)}
-            color={colors.text}
-            strokeWidth={1.2}
-          />
-        </View>
-        <View style={[styles.capsuleIcon, { backgroundColor: colors.card }]}>
-          <HugeiconsIcon
-            key="Guardar"
-            icon={BookmarkAdd02Icon}
-            size={moderateScale(21)}
-            color={colors.text}
-            strokeWidth={1.2}
-          />
-        </View>
-      </View>
+            <View style={styles.stats}>
+              <View
+                style={[styles.capsuleText, { backgroundColor: colors.card }]}
+              >
+                <Text
+                  style={{
+                    color: colors.text,
+                    fontWeight: typography.fontWeights.bold,
+                    fontSize: typography.fontSizes.lg,
+                  }}
+                >
+                  {postData?.stats.views}{' '}
+                  <Text
+                    style={{
+                      fontWeight: typography.fontWeights.light,
+                      fontSize: typography.fontSizes.md,
+                    }}
+                  >
+                    Vistas
+                  </Text>
+                </Text>
+              </View>
+            </View>
+            <View style={styles.interactions}>
+              <InteractionPostButton keyIcon="Like" hugeIcon="StarIcon" />
+              <InteractionPostButton
+                keyIcon="Comentar"
+                hugeIcon="CommentIcon"
+              />
+              <InteractionPostButton keyIcon="Impulsar" hugeIcon="BoostIcon" />
+              <InteractionPostButton keyIcon="Guardar" hugeIcon="KeepIcon" />
+            </View>
+          </View>
+        )}
+        renderIndicator={() => <></>}
+        saveToLocalByLongPress={false}
+        style={styles.viewerWrapper}
+      />
 
       <BottomSheet
         ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={[{ backgroundColor: colors.background }]}
         handleIndicatorStyle={[{ backgroundColor: colors.primary }]}
@@ -170,7 +174,109 @@ export default function PostDetailScreen() {
             showdate
             date={date}
           />
-          {postData?.content && <PostContent text={postData.content} />}
+          {postData?.content && <PostContent text={postData.content} variant />}
+          <View style={styles.statsInteractions}>
+            <View style={styles.showStats}>
+              <HugeiconsIcon
+                key="Like"
+                icon={StarIcon}
+                size={moderateScale(18)}
+                color={colors.textSecondary}
+                strokeWidth={1}
+              />
+              <Text
+                style={{
+                  fontSize: typography.fontSizes.sm,
+                  color: colors.textSecondary,
+                }}
+              >
+                {postData?.stats.supports}
+              </Text>
+            </View>
+            <View style={styles.showStats}>
+              <HugeiconsIcon
+                key="Comentar"
+                icon={Comment02Icon}
+                size={moderateScale(18)}
+                color={colors.textSecondary}
+                strokeWidth={1}
+              />
+              <Text
+                style={{
+                  fontSize: typography.fontSizes.sm,
+                  color: colors.textSecondary,
+                }}
+              >
+                {postData?.stats.comments}
+              </Text>
+            </View>
+            <View style={styles.showStats}>
+              <HugeiconsIcon
+                key="Impulsar"
+                icon={AutoConversationsIcon}
+                size={moderateScale(18)}
+                color={colors.textSecondary}
+                strokeWidth={1}
+              />
+              <Text
+                style={{
+                  fontSize: typography.fontSizes.sm,
+                  color: colors.textSecondary,
+                }}
+              >
+                {postData?.stats.boosts}
+              </Text>
+            </View>
+            <View style={styles.showStats}>
+              <HugeiconsIcon
+                key="Guardar"
+                icon={BookmarkAdd02Icon}
+                size={moderateScale(18)}
+                color={colors.textSecondary}
+                strokeWidth={1}
+              />
+              <Text
+                style={{
+                  fontSize: typography.fontSizes.sm,
+                  color: colors.textSecondary,
+                }}
+              >
+                {postData?.stats.keeps}
+              </Text>
+            </View>
+            <View style={styles.showStats}>
+              <HugeiconsIcon
+                key="Vistas"
+                icon={ViewIcon}
+                size={moderateScale(18)}
+                color={colors.textSecondary}
+                strokeWidth={1}
+              />
+              <Text
+                style={{
+                  fontSize: typography.fontSizes.sm,
+                  color: colors.textSecondary,
+                }}
+              >
+                {postData?.stats.views}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={[
+              styles.divider,
+              {
+                backgroundColor: colors.border,
+                width: SCREEN_WIDTH * 0.94,
+              },
+            ]}
+          />
+          {sheetIndex !== 0 && (
+            <Animated.View entering={FadeIn} exiting={FadeOut}>
+              <Text>Comentarios</Text>
+              <Text>Aquí el resultado de los comentarios endeless</Text>
+            </Animated.View>
+          )}
         </BottomSheetView>
       </BottomSheet>
     </View>
@@ -181,6 +287,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    position: 'relative',
   },
   contentContainer: {
     flex: 1,
@@ -206,7 +313,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   capsuleIcon: {
-    padding: moderateScale(12),
+    padding: moderateScale(10),
     borderRadius: moderateScale(50),
     alignItems: 'center',
     justifyContent: 'center',
@@ -218,24 +325,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  statsInteractions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: moderateScale(8),
+  },
+  showStats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: moderateScale(5),
+  },
+  divider: {
+    height: moderateScale(1.5),
+    marginTop: moderateScale(5),
+    marginBottom: moderateScale(10),
+  },
   interactions: {
-    position: 'absolute',
+    //position: 'absolute',
     flexDirection: 'column',
-    gap: 8,
+    gap: moderateScale(15),
     right: 15,
-    bottom: 200,
+    bottom: verticalScale(60),
     zIndex: 2,
   },
   stats: {
-    position: 'absolute',
+    //position: 'absolute',
     flexDirection: 'column',
     gap: 8,
     left: 15,
-    bottom: 200,
+    top: verticalScale(87),
     zIndex: 2,
   },
   images: {
     width: 450,
     height: SCREEN_HEIGHT,
+  },
+  viewerWrapper: {
+    flex: 0.8,
+    justifyContent: 'center',
   },
 });

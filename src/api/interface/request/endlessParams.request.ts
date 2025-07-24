@@ -1,4 +1,4 @@
-export interface Params {
+export interface EndlessParams {
   limit?: number;
   cursor?: string;
 };
