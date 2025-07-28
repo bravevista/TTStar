@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useMutation } from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useTheme } from '../../hooks/useTheme';
 import { AuthModule } from '../../api/repository/auth.repository';
@@ -66,7 +67,10 @@ export default function ProfileScreen({
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background2 }}>
+    <SafeAreaView
+      edges={['top']}
+      style={{ flex: 1, backgroundColor: colors.background2 }}
+    >
       <MainHeader />
 
       <ScrollView
@@ -207,7 +211,7 @@ export default function ProfileScreen({
         </Modal>
         <Toast />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

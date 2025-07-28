@@ -16,6 +16,7 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { Search01Icon } from '@hugeicons/core-free-icons';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSearchUsers } from '../../hooks/useSearchUsers.hook';
 import { useTheme } from '../../hooks/useTheme';
@@ -49,7 +50,10 @@ export default function SearchScreen({
   const renderItem = ({ item }: any) => <SearchCard item={item} />;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background2 }]}>
+    <SafeAreaView
+      edges={['top']}
+      style={[styles.container, { backgroundColor: colors.background2 }]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -136,7 +140,7 @@ export default function SearchScreen({
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

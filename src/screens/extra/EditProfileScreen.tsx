@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function EditProfileScreen() {
-    return (
-        <View>
-            <Text>Edit Perfil</Text>
-        </View>
-    );
-};
+  return (
+    <SafeAreaView>
+      <Text>Edit Perfil</Text>
+    </SafeAreaView>
+  );
+}

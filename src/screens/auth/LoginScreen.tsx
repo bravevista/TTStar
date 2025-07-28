@@ -14,6 +14,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import Header from '../../components/common/Header';
 import SignInSVG from '../../assets/svg/SignInSVG';
@@ -33,6 +37,7 @@ export default function LoginScreen({
 }: ScreenProps<'Login'>) {
   const { colors, toggleTheme, theme, typography, shadows } = useTheme();
   const { setUser } = useUserStore();
+  const insets = useSafeAreaInsets();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
 
@@ -101,12 +106,19 @@ export default function LoginScreen({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
-      <View style={styles.navButton}>
+      <View
+        style={[
+          styles.navButton,
+          { top: Math.max(insets.top, 30), left: Math.max(insets.left, 0) },
+        ]}
+      >
         <NaviButton
           label="Anterior"
           type="PrevButton"
@@ -115,7 +127,12 @@ export default function LoginScreen({
           onPress={handleWelcome}
         />
       </View>
-      <View style={styles.toggleTheme}>
+      <View
+        style={[
+          styles.toggleTheme,
+          { top: Math.max(insets.top, 30), right: Math.max(insets.right, 0) },
+        ]}
+      >
         <Header
           primaryColor={colors.primary}
           toggleTheme={toggleTheme}
@@ -263,7 +280,7 @@ export default function LoginScreen({
         </View>
       </Modal>
       <Toast />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -275,11 +292,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navButton: {
-    flex: 1,
     zIndex: 10,
     position: 'absolute',
-    top: 8,
-    left: 0,
     paddingRight: 5,
     borderColor: '#aaa',
     borderWidth: 2,
@@ -289,11 +303,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   toggleTheme: {
-    flex: 1,
     position: 'absolute',
     zIndex: 10,
-    top: 0,
-    right: 0,
   },
   welcomeSection: {
     paddingHorizontal: 20,

@@ -7,11 +7,12 @@ import {
   Text,
   View,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import { useQueryClient } from '@tanstack/react-query';
 import { moderateScale } from 'react-native-size-matters';
 import Animated, { FadeIn, FadeInUp, FadeOut } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MainHeader from '../../components/common/MainHeader';
 import Post from '../../components/specific/Post/Post';
@@ -80,7 +81,10 @@ export default function HomeScreen({
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background2 }]}>
+    <SafeAreaView
+      edges={['top']}
+      style={[styles.container, { backgroundColor: colors.background2 }]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -143,7 +147,7 @@ export default function HomeScreen({
           </Animated.View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

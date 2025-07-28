@@ -15,6 +15,10 @@ import {
 } from '@hugeicons/core-free-icons';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import { useTheme } from '../../hooks/useTheme';
 import { useGetPostDetails } from '../../hooks/useGetPostDetails.hook';
@@ -33,6 +37,7 @@ export default function PostDetailScreen() {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [sheetIndex, setSheetIndex] = useState(0);
+  const insets = useSafeAreaInsets();
   const route = useRoute<RouteProp<MainStackParamList, 'PostDetail'>>();
   const { uuid: postUuid } = route.params;
 
@@ -49,10 +54,13 @@ export default function PostDetailScreen() {
   }
 
   return (
-    <View
+    <SafeAreaView
       style={[
         styles.container,
-        { backgroundColor: 'black', width: SCREEN_WIDTH },
+        {
+          backgroundColor: 'black',
+          width: SCREEN_WIDTH,
+        },
       ]}
     >
       <ImageViewer
@@ -69,7 +77,7 @@ export default function PostDetailScreen() {
         enableImageZoom={true}
         renderHeader={() => (
           <View style={[styles.header, { width: SCREEN_WIDTH }]}>
-            <View style={styles.profile}>
+            <View style={[styles.profile]}>
               <Image
                 source={postData?.user.profilephoto}
                 style={[styles.profilephoto, { borderColor: colors.primary }]}
@@ -163,17 +171,8 @@ export default function PostDetailScreen() {
           borderRadius: moderateScale(25),
         }}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <UserCard
-            type={postData?.user.type!}
-            uuid={postData?.user._id!}
-            name={postData?.user.name!}
-            lastname={postData?.user.lastname!}
-            profilephoto={postData?.user.profilephoto!}
-            username={postData?.user.username!}
-            showdate
-            date={date}
-          />
+        <BottomSheetView style={[styles.contentContainer]}>
+          <UserCard uuid={postData?.user._id!} showdate date={date} />
           {postData?.content && <PostContent text={postData.content} variant />}
           <View style={styles.statsInteractions}>
             <View style={styles.showStats}>
@@ -279,7 +278,7 @@ export default function PostDetailScreen() {
           )}
         </BottomSheetView>
       </BottomSheet>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -8,13 +8,15 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { Image, ImageBackground } from 'expo-image';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TabScreenProps } from '../../types/navigation';
 import { useTheme } from '../../hooks/useTheme';
 import MainHeader from '../../components/common/MainHeader';
-import { Image, ImageBackground } from 'expo-image';
-import { scale, verticalScale } from 'react-native-size-matters';
 import ExploreStackNavigator from '../../navigation/ExploreStackNavigator';
+import TransparentButton from '../../components/specific/TransparenteButton';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -25,12 +27,16 @@ export default function ExploreScreen({
   const { colors, typography, theme } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      edges={['top']}
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
       <MainHeader />
+      <TransparentButton />
       <ImageBackground
         source="https://game-tournaments.com/media/news/n68138.jpeg"
         style={[styles.image, { width: SCREEN_WIDTH }]}
@@ -41,10 +47,10 @@ export default function ExploreScreen({
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
         >
-          <Pressable style={styles.category}>
+          <Pressable style={styles.categorySelected}>
             <Text
               style={{
-                color: 'white',
+                color: 'transparent',
                 fontSize: typography.fontSizes.sm,
                 fontWeight: typography.fontWeights.bold,
               }}
@@ -102,7 +108,7 @@ export default function ExploreScreen({
       <View style={styles.stackSection}>
         <ExploreStackNavigator />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -127,6 +133,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 15,
+  },
+  categorySelected: {
+    borderWidth: 2,
+    borderColor: 'white',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+    backgroundColor: 'transparent',
   },
   stackSection: {
     flex: 1,

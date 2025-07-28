@@ -10,6 +10,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { Search01Icon } from '@hugeicons/core-free-icons';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TabScreenProps } from '../../types/navigation';
 import { useTheme } from '../../hooks/useTheme';
@@ -40,7 +41,10 @@ export default function ContactsScreen({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      edges={['top']}
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -79,7 +83,7 @@ export default function ContactsScreen({
       <View style={styles.tabSection}>
         <TopTabNavigator query={query} onTabChange={setActiveTab} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
