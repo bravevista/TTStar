@@ -34,6 +34,9 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function PostDetailScreen() {
   const { colors, typography } = useTheme();
+  const [initialSheetHeight, setInitialSheetHeight] = useState<number | null>(
+    null
+  );
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [sheetIndex, setSheetIndex] = useState(0);
@@ -63,101 +66,121 @@ export default function PostDetailScreen() {
         },
       ]}
     >
-      <ImageViewer
-        imageUrls={[
-          {
-            url: postData?.image ?? ' ',
-          },
-          {
-            url: 'https://wallpapers.com/images/hd/super-villain-cell-dragon-ball-z-iphone-cbmk6bd8nckhr0cc.jpg',
-          },
-        ]}
-        backgroundColor={'#000'}
-        enableSwipeDown={false}
-        enableImageZoom={true}
-        renderHeader={() => (
-          <View style={[styles.header, { width: SCREEN_WIDTH }]}>
-            <View style={[styles.profile]}>
-              <Image
-                source={postData?.user.profilephoto}
-                style={[styles.profilephoto, { borderColor: colors.primary }]}
-                contentFit="cover"
-              />
-              <View
-                style={[styles.capsuleText, { backgroundColor: colors.card }]}
-              >
-                <Text
-                  style={[
-                    {
-                      color: colors.text,
-                      fontWeight: typography.fontWeights.semibold,
-                      fontSize: typography.fontSizes.sm,
-                    },
-                  ]}
-                >
-                  @{postData?.user.username}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={[styles.capsuleIcon, { backgroundColor: colors.card }]}
-            >
-              <HugeiconsIcon
-                key="More"
-                icon={MoreHorizontalCircle01Icon}
-                size={moderateScale(21)}
-                color={colors.text}
-                strokeWidth={1.2}
-              />
-            </View>
-          </View>
-        )}
-        renderFooter={() => (
-          <View
-            style={{
-              width: SCREEN_WIDTH,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
-            <View style={styles.stats}>
-              <View
-                style={[styles.capsuleText, { backgroundColor: colors.card }]}
-              >
-                <Text
-                  style={{
-                    color: colors.text,
-                    fontWeight: typography.fontWeights.bold,
-                    fontSize: typography.fontSizes.lg,
-                  }}
-                >
-                  {postData?.stats.views}{' '}
-                  <Text
-                    style={{
-                      fontWeight: typography.fontWeights.light,
-                      fontSize: typography.fontSizes.md,
-                    }}
+      {initialSheetHeight !== null && (
+        <View
+          style={{
+            height: SCREEN_HEIGHT - initialSheetHeight + insets.bottom,
+          }}
+        >
+          <ImageViewer
+            imageUrls={[
+              {
+                url: postData?.image ?? ' ',
+              },
+            ]}
+            backgroundColor={'#000'}
+            enableSwipeDown={false}
+            enableImageZoom={true}
+            renderHeader={() => (
+              <View style={[styles.header, { width: SCREEN_WIDTH }]}>
+                <View style={[styles.profile]}>
+                  <Image
+                    source={postData?.user.profilephoto}
+                    style={[
+                      styles.profilephoto,
+                      { borderColor: colors.primary },
+                    ]}
+                    contentFit="cover"
+                  />
+                  <View
+                    style={[
+                      styles.capsuleText,
+                      { backgroundColor: colors.card },
+                    ]}
                   >
-                    Vistas
-                  </Text>
-                </Text>
+                    <Text
+                      style={[
+                        {
+                          color: colors.text,
+                          fontWeight: typography.fontWeights.semibold,
+                          fontSize: typography.fontSizes.sm,
+                        },
+                      ]}
+                    >
+                      @{postData?.user.username}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[styles.capsuleIcon, { backgroundColor: colors.card }]}
+                >
+                  <HugeiconsIcon
+                    key="More"
+                    icon={MoreHorizontalCircle01Icon}
+                    size={moderateScale(21)}
+                    color={colors.text}
+                    strokeWidth={1.2}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={styles.interactions}>
-              <InteractionPostButton keyIcon="Like" hugeIcon="StarIcon" />
-              <InteractionPostButton
-                keyIcon="Comentar"
-                hugeIcon="CommentIcon"
-              />
-              <InteractionPostButton keyIcon="Impulsar" hugeIcon="BoostIcon" />
-              <InteractionPostButton keyIcon="Guardar" hugeIcon="KeepIcon" />
-            </View>
-          </View>
-        )}
-        renderIndicator={() => <></>}
-        saveToLocalByLongPress={false}
-        style={styles.viewerWrapper}
-      />
+            )}
+            renderFooter={() => (
+              <View
+                style={{
+                  width: SCREEN_WIDTH,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <View style={styles.stats}>
+                  <View
+                    style={[
+                      styles.capsuleText,
+                      { backgroundColor: colors.card },
+                    ]}
+                  >
+                    <Text
+                      style={{
+                        color: colors.text,
+                        fontWeight: typography.fontWeights.bold,
+                        fontSize: typography.fontSizes.lg,
+                      }}
+                    >
+                      {postData?.stats.views}{' '}
+                      <Text
+                        style={{
+                          fontWeight: typography.fontWeights.light,
+                          fontSize: typography.fontSizes.md,
+                        }}
+                      >
+                        Vistas
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.interactions}>
+                  <InteractionPostButton keyIcon="Like" hugeIcon="StarIcon" />
+                  <InteractionPostButton
+                    keyIcon="Comentar"
+                    hugeIcon="CommentIcon"
+                  />
+                  <InteractionPostButton
+                    keyIcon="Impulsar"
+                    hugeIcon="BoostIcon"
+                  />
+                  <InteractionPostButton
+                    keyIcon="Guardar"
+                    hugeIcon="KeepIcon"
+                  />
+                </View>
+              </View>
+            )}
+            renderIndicator={() => <></>}
+            saveToLocalByLongPress={false}
+            style={styles.viewerWrapper}
+          />
+        </View>
+      )}
 
       <BottomSheet
         ref={bottomSheetRef}
@@ -171,7 +194,19 @@ export default function PostDetailScreen() {
           borderRadius: moderateScale(25),
         }}
       >
-        <BottomSheetView style={[styles.contentContainer]}>
+        <BottomSheetView
+          style={[
+            styles.contentContainer,
+            {
+              paddingBottom: insets.bottom,
+            },
+          ]}
+          onLayout={e => {
+            if (initialSheetHeight === null) {
+              setInitialSheetHeight(e.nativeEvent.layout.height);
+            }
+          }}
+        >
           <UserCard uuid={postData?.user._id!} showdate date={date} />
           {postData?.content && <PostContent text={postData.content} variant />}
           <View style={styles.statsInteractions}>
@@ -355,12 +390,8 @@ const styles = StyleSheet.create({
     top: verticalScale(87),
     zIndex: 2,
   },
-  images: {
-    width: 450,
-    height: SCREEN_HEIGHT,
-  },
   viewerWrapper: {
-    flex: 0.8,
+    flex: 1,
     justifyContent: 'center',
   },
 });
