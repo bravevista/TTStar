@@ -44,6 +44,7 @@ export type MainStackParamList = {
   PostDetail: { uuid: string };
   PostModal: undefined;
   ShareExperiences: undefined;
+  ChatConversation: { contactId: string };
 };
 
 // Props para los componentes de pantalla

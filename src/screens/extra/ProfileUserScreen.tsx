@@ -27,7 +27,7 @@ import {
   UserGroup03Icon,
   MusicNoteSquare02Icon,
 } from '@hugeicons/core-free-icons';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -41,6 +41,8 @@ import { AddFriendButton } from '../../components/specific/AddFriendButton';
 import { getAcronym } from '../../utils/GetAcronimun.utils';
 import { UserType, userTypeLabels } from '../../utils/TransformTypeUser.utils';
 import { formatDate } from '../../utils/FormatDate.utils';
+import { Button } from 'react-native-paper';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -53,6 +55,10 @@ type UserField = {
 
 export default function ProfileUserScreen() {
   const { colors, typography } = useTheme();
+  const navigation =
+      useNavigation<
+        NativeStackNavigationProp<MainStackParamList, 'ChatConversation'>
+      >();
   const [modalVisible, setModalVisible] = useState(false);
   const route = useRoute<RouteProp<MainStackParamList, 'ProfileUser'>>();
   const { uuid } = route.params;
@@ -74,6 +80,10 @@ export default function ProfileUserScreen() {
   }
   const academicLevel = capitalizeFirst(userData?.academicdegree ?? '');
   const birthdaydate = formatDate(userData?.birthdaydate ?? '');
+
+  const handleMessageButton = (contactId: string) => {
+    navigation.navigate('ChatConversation', { contactId });
+  };
 
   const userFields: UserField[] = [
     {
@@ -160,7 +170,7 @@ export default function ProfileUserScreen() {
               <FollowButton
                 followedUuid={uuid}
                 initiallyFollowing={relationship.isFollowing}
-              />
+              />              
             </>
           )}
         </View>
@@ -248,6 +258,15 @@ export default function ProfileUserScreen() {
               <Text style={{ color: colors.text }}>
                 {socialStats.numberOfFriends} amigos
               </Text>
+              {relationship.isFriend && (
+                <Button
+                  mode="outlined"
+                  onPress={() => handleMessageButton(uuid)}
+                  style={{ marginTop: 8 }}
+                >
+                  Mensaje
+                </Button>
+              )}
             </View>
           </View>
         </View>
