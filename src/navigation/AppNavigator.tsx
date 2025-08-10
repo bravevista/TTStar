@@ -15,6 +15,7 @@ import { useTheme } from '../hooks/useTheme';
 import WelcomeScreen from '../screens/auth/WelcomeScreen';
 import OnboardingScreen from '../screens/auth/OnboardingScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
+import RealtimeProviders from '../providers/RealtimeProviders';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -92,7 +93,7 @@ export default function AppNavigator() {
         />
         <Stack.Screen
           name="Main"
-          component={MainAppNavigator}
+          //component={MainAppNavigator}
           options={{
             gestureEnabled: false,
             headerLeft: () => null,
@@ -100,7 +101,13 @@ export default function AppNavigator() {
               backgroundColor: colors.background,
             },
           }}
-        />
+        >
+          {() => (
+            <RealtimeProviders>
+              <MainAppNavigator />
+            </RealtimeProviders>
+          )}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

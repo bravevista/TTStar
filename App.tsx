@@ -9,6 +9,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { queryClient } from './src/config/ReactQuery';
 import './src/api/interceptors';
+import { PaperProvider } from 'react-native-paper';
 
 enableScreens();
 
@@ -18,7 +19,9 @@ export default function App() {
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView>
-            <AppNavigator />
+            <PaperProvider>
+              <AppNavigator />
+            </PaperProvider>
           </GestureHandlerRootView>
         </QueryClientProvider>
       </ThemeProvider>

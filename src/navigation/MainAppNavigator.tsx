@@ -15,6 +15,7 @@ import ProfileUserScreen from '../screens/extra/ProfileUserScreen';
 import EditProfileScreen from '../screens/extra/EditProfileScreen';
 import ShareExperiencesScreen from '../screens/extra/ShareExperiencesScreen';
 import PostDetailScreen from '../screens/extra/PostDetailScreen';
+import ChatConversationScreen from '../screens/extra/ChatConversationScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -62,6 +63,12 @@ export default function MainAppNavigator() {
         options={{
           animation: 'fade_from_bottom',
         }}
+      />
+
+      <Stack.Screen
+        name="ChatConversation"
+        component={ChatConversationScreen}
+        options={{ animation: 'ios_from_right' }}
       />
 
       {/* Pantallas de stack normales */}
